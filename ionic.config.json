@@ -1,5 +1,7 @@
 {
   "name": "smartCare",
-  "integrations": {},
+  "integrations": {
+    "cordova": {}
+  },
   "type": "angular"
 }

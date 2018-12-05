@@ -1,0 +1,42 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-title>Login</ion-title>
+  </ion-toolbar>
+</ion-header>
+ 
+<ion-content padding>
+  <form [formGroup]="credentialsForm" (ngSubmit)="onSubmit()">
+ 
+    <ion-item>
+      <ion-label position="floating">Email</ion-label>
+      <ion-input type="email" formControlName="email"></ion-input>
+    </ion-item>
+ 
+    <ion-item>
+      <ion-label position="floating">Password</ion-label>
+      <ion-input type="password" formControlName="password"></ion-input>
+    </ion-item>
+
+    <ion-list>
+        <ion-item>
+          <ion-label>User</ion-label>
+          <ion-checkbox color="dark" [checked]="checkmale" (ionChange)="updateCheckmale($event)"></ion-checkbox>
+        </ion-item>
+          
+        <ion-item>
+          <ion-label>Supervisor</ion-label>
+          <ion-checkbox color="dark" [checked]="checkfemale" (ionChange)="updateCheckfemale($event)"></ion-checkbox>
+        </ion-item>
+      </ion-list> 
+
+ 
+    <ion-button expand="full" shape="round" type="submit" [disabled]="!credentialsForm.valid">Login</ion-button>
+    <br/>
+    <br/>
+    <div  style="text-align: center;">
+      
+      <ion-label style="color:rgb(0, 0, 0);" color="transparent" (click)="registerP()" >Not a member? <span class="notSign"><u>Sign up now.</u></span></ion-label>
+    </div>
+ 
+  </form>
+</ion-content>
