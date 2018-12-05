@@ -30,7 +30,7 @@ export class LoginPage implements OnInit {
   }
  
   registerP() {
-    this.navContrl.navigateRoot('/register');
+    this.navContrl.navigateRoot('/tabs');
   }
   
   updateCheckmale(val){

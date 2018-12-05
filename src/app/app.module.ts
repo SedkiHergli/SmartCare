@@ -12,6 +12,11 @@ import { AppRoutingModule } from './app-routing.module';
 import { HttpClientModule } from '@angular/common/http';
 import { Storage, IonicStorageModule } from '@ionic/storage';
 import { JwtModule, JWT_OPTIONS } from '@auth0/angular-jwt';
+import { AccountuPageModule } from './pages/accountu/accountu.module';
+import { MapPageModule } from './pages/map/map.module';
+import { SettingsPageModule } from './pages/settings/settings.module';
+import { WeatherPageModule } from './pages/weather/weather.module';
+import { TabsModule } from './tabs/tabs.module';
 
 export function jwtOptionsFactory(storage) {
   return {
@@ -34,7 +39,9 @@ export function jwtOptionsFactory(storage) {
       useFactory: jwtOptionsFactory,
       deps: [Storage],
     }
-  })],
+  }),
+  TabsModule
+],
   providers: [
     StatusBar,
     SplashScreen,

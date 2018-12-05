@@ -16,10 +16,10 @@ import { Router, RouterEvent } from '@angular/router';
 
 export class AppComponent {
   public pages = [
-    {title: 'My Account', url: '/accountu', icon:'person'},
-    {title: 'Map', url: '/map', icon:'map'},
-    {title: 'Today Weather', url: '/weather', icon:'sunny'},
-    {title: 'Settings', url: '/settings', icon:'settings'}
+    {title: 'My Account', url: '/tabs/(accountu:accountu)', icon:'person'},
+    {title: 'Map', url: '/tabs/(map:map)', icon:'map'},
+    {title: 'Today Weather', url: '/tabs/(weather:weather)', icon:'sunny'},
+    {title: 'Settings', url: '/tabs/(settings:settings)', icon:'settings'}
   ];
   
   constructor(
@@ -39,7 +39,7 @@ export class AppComponent {
 
       this.authService.authenticationState.subscribe(state => {
         if (state) {
-          this.router.navigate(['accountu']);
+          this.router.navigate(['tabs']);
         } else {
           this.router.navigate(['login']);
         }
