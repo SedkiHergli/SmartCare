@@ -17,34 +17,34 @@ const routes: Routes = [
         path: '',
         redirectTo: '/tabs/(accountu:accountu)',
         pathMatch: 'full',
-        canActivate: [AuthGuardService],
+        //canActivate: [AuthGuardService],
       },
       {
         path: 'accountu',
         outlet: 'accountu',
         component: AccountuPage,
-        canActivate: [AuthGuardService],
+        //canActivate: [AuthGuardService],
 
       },
       {
         path: 'map',
         outlet: 'map',
         component: MapPage,
-        canActivate: [AuthGuardService],
+        //canActivate: [AuthGuardService],
 
       },
       {
         path: 'weather',
         outlet: 'weather',
         component: WeatherPage,
-        canActivate: [AuthGuardService],
+        //canActivate: [AuthGuardService],
 
       },
       {
         path: 'settings',
         outlet: 'settings',
         component: SettingsPage,
-        canActivate: [AuthGuardService],
+        //canActivate: [AuthGuardService],
 
       }
     ]
@@ -53,7 +53,7 @@ const routes: Routes = [
     path: '',
     redirectTo: '/tabs/(accountu:accountu)',
     pathMatch: 'full',
-    canActivate: [AuthGuardService],
+    //canActivate: [AuthGuardService],
   }
 ];
 
