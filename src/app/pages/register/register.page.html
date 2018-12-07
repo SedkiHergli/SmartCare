@@ -7,50 +7,55 @@
     </ion-toolbar>
   </ion-header>
  
-<ion-content padding>
+<ion-content style="--background: url(assets/imgs/bg.jpeg) center / 100%;" padding>
+  <ion-card style="	box-shadow: none;background: rgba(0, 0, 0, 0.5);border-radius: 5px;">
+    <ion-card-header style="color: #fff;text-align: center;font-weight: bold">
+      Register Form
+    </ion-card-header>
+    <ion-card-content>
+        <ion-list style="background: transparent;" no-line>
   <form [formGroup]="credentialsForm">
       <ion-item>
-          <ion-label position="floating">FullName</ion-label>
-          <ion-input type="text" formControlName="fullName"></ion-input>
+          <ion-input type="text" formControlName="fullName" style="color: #fff" placeholder="FullName" autocomplete="on"></ion-input>
         </ion-item>
  
     <ion-item>
-      <ion-label position="floating">Email</ion-label>
-      <ion-input type="email" formControlName="email"></ion-input>
+      <ion-input type="email" formControlName="email" style="color: #fff" placeholder="Email" autocomplete="on"></ion-input>
     </ion-item>
 
     <ion-item>
-        <ion-label position="floating">Phone Number</ion-label>
-        <ion-input type="text" formControlName="phone"></ion-input>
+        <ion-input type="text" formControlName="phone" style="color: #fff" placeholder="Phone Number" autocomplete="on"></ion-input>
     </ion-item>
  
     <ion-item>
-      <ion-label position="floating">Password</ion-label>
-      <ion-input type="password" formControlName="password"></ion-input>
+      <ion-input type="password" formControlName="password" style="color: #fff" placeholder="Password" autocomplete="on"></ion-input>
     </ion-item>
 
-    <ion-list>
-        <ion-item>
-          <ion-label>Male</ion-label>
-          <ion-checkbox color="dark" [checked]="checkmale" (ionChange)="updateCheckmale($event)"></ion-checkbox>
+    <ion-list style="background: transparent;">
+        <ion-item class="reMode_selected">
+          <ion-label style="color: #fff">Male</ion-label>
+          <ion-checkbox color="danger" [checked]="checkmale" (ionChange)="updateCheckmale($event)"></ion-checkbox>
         </ion-item>
           
-        <ion-item>
-          <ion-label>Female</ion-label>
-          <ion-checkbox color="dark" [checked]="checkfemale" (ionChange)="updateCheckfemale($event)"></ion-checkbox>
+        <ion-item class="reMode_selected">
+          <ion-label style="color: #fff">Female</ion-label>
+          <ion-checkbox color="danger" [checked]="checkfemale" (ionChange)="updateCheckfemale($event)"></ion-checkbox>
         </ion-item>
       </ion-list> 
 
     
-    <ion-button expand="full" shape="round" type="button" (click)="presentAlertPrompt()" [disabled]="!credentialsForm.valid">ADD SUPERVISOR</ion-button>
+    <ion-button expand="full" shape="round" type="button" style="--background: rgb(236, 58, 207);--background-focused: rgb(236, 58, 207);" (click)="presentAlertPrompt()" [disabled]="!credentialsForm.valid">ADD SUPERVISOR</ion-button>
     <div style="margin-top: 10px">
-      <ion-button expand="full" shape="round" type="button" [disabled]="checkAddSuper" (click)="register()" >Register</ion-button>
+      <ion-button expand="full" shape="round" type="button" style="--background: rgb(236, 58, 207);--background-focused: rgb(236, 58, 207);" [disabled]="checkAddSuper" (click)="register()" >Register</ion-button>
     </div>
     <br/>
     <br/>
     <div  style="text-align: center;">
-        <ion-label style="color:rgb(0, 0, 0);" color="transparent" (click)="loginP()" >Already Registred! <span class="notSign"><u>Login Me.</u></span></ion-label>
+        <ion-label  style="color: #fff" color="transparent" (click)="loginP()" >Already Registred! <span class="notSign"><u>Login Me.</u></span></ion-label>
       </div>
  
   </form> 
+</ion-list>
+</ion-card-content>
+</ion-card>
 </ion-content>
