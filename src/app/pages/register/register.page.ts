@@ -2,7 +2,7 @@ import { Component, OnInit, Input } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { AuthService } from '../../services/auth.service';
 import { AlertController, NavController, LoadingController } from '@ionic/angular';
-import { Geolocation,GeolocationOptions } from '@ionic-native/geolocation/ngx';
+import { Geolocation} from '@ionic-native/geolocation/ngx';
 
 
 @Component({
@@ -178,7 +178,8 @@ export class RegisterPage implements OnInit {
   }
 
   getLocation(){
-    this.geo.getCurrentPosition({ maximumAge: 3000, timeout: 5000, enableHighAccuracy: true }).then( pos => {
+    var options = { maximumAge: 3000, timeout: 5000, enableHighAccuracy: true };
+    this.geo.getCurrentPosition(options).then( pos => {
      this.lat = pos.coords.latitude;
      this.lng = pos.coords.longitude;
     }).catch( err => this.showAlert(err));
