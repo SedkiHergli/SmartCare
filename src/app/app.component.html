@@ -1,14 +1,14 @@
 <ion-app>
   <ion-split-pane>
-    <ion-menu contentId="content" type="overlay">
+    <ion-menu contentId="content" type="overlay" >
       <ion-header>
-        <ion-toolbar>
+        <ion-toolbar style="--background: url(../assets/imgs/side.jpg);">
           <ion-title>Menu</ion-title>
         </ion-toolbar>
       </ion-header>
    
-      <ion-content>
-        <ion-list>
+      <ion-content style="--background: url(../assets/imgs/side.jpg);">
+        <ion-list style="background: transparent;">
           <ion-menu-toggle auto-hide="false" *ngFor="let p of pages">
             <ion-item [href]="p.url" routerDirection="root">
               <ion-icon slot="start" [name]="p.icon"></ion-icon>
