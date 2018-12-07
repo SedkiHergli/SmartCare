@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { AuthService } from '../../services/auth.service';
 import { AlertController, NavController, LoadingController} from '@ionic/angular';
+import { Geolocation,GeolocationOptions } from '@ionic-native/geolocation/ngx';
  
 @Component({
   selector: 'app-login',
@@ -15,13 +16,21 @@ export class LoginPage implements OnInit {
   checkfemale: boolean;
   checkmale: boolean;
  
-  constructor(private formBuilder: FormBuilder, private authService: AuthService, private navContrl: NavController, public loadingController: LoadingController) { }
+  constructor(private formBuilder: FormBuilder, private authService: AuthService, private navContrl: NavController, public loadingController: LoadingController, public geo: Geolocation) { }
  
   ngOnInit() {
+    this.getLocation();
     this.credentialsForm = this.formBuilder.group({
       email: ['', [Validators.required, Validators.email]],
       password: ['', [Validators.required, Validators.minLength(6)]]
     });
+  }
+
+  getLocation(){
+    this.geo.getCurrentPosition({ maximumAge: 3000, timeout: 5000, enableHighAccuracy: true }).then( pos => {
+      console.log(pos.coords.latitude);
+     console.log(pos.coords.longitude);
+    }).catch( err => console.log(err));
   }
  
   onSubmit() {

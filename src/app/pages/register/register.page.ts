@@ -2,6 +2,8 @@ import { Component, OnInit, Input } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { AuthService } from '../../services/auth.service';
 import { AlertController, NavController, LoadingController } from '@ionic/angular';
+import { Geolocation,GeolocationOptions } from '@ionic-native/geolocation/ngx';
+
 
 @Component({
   selector: 'app-register',
@@ -14,6 +16,8 @@ export class RegisterPage implements OnInit {
   checkfemale: boolean;
   checkmale: boolean;
   sexe: string;
+  lng : any;
+  lat : any;
   requet_s:object;
   requet_se:object;
   requet_e:object;
@@ -21,7 +25,7 @@ export class RegisterPage implements OnInit {
   checkAddSuper:boolean;
 
 
-  constructor(public loadingController: LoadingController, private formBuilder: FormBuilder, private authService: AuthService, public alertController: AlertController, private navContrl: NavController) { 
+  constructor(public geo: Geolocation, public loadingController: LoadingController, private formBuilder: FormBuilder, private authService: AuthService, public alertController: AlertController, private navContrl: NavController) { 
     this.checkAddSuper=true;
     this.requet_s={};
     this.requet_se={};
@@ -43,6 +47,7 @@ export class RegisterPage implements OnInit {
   }
 
   register() {
+    this.getLocation();
     this.presentLoadingWithOptions();
     if(this.checkmale){
       this.sexe="Male";
@@ -54,8 +59,8 @@ export class RegisterPage implements OnInit {
     "phone":this.credentialsForm.value.phone,
     "sexe":this.sexe,
     "stype":"User",
-    "lat":"{type:String,required:true}",
-    "lng":"{type:String,required:true}",
+    "lat":this.lat,
+    "lng":this.lng,
     "name_s":this.requet_s["fullName"],
     "email_s":this.requet_s["email"],
     "phone_s":this.requet_s["phone"]
@@ -170,6 +175,13 @@ export class RegisterPage implements OnInit {
       cssClass: 'custom-class custom-loading'
     });
     return await loading.present();
+  }
+
+  getLocation(){
+    this.geo.getCurrentPosition({ maximumAge: 3000, timeout: 5000, enableHighAccuracy: true }).then( pos => {
+     this.lat = pos.coords.latitude;
+     this.lng = pos.coords.longitude;
+    }).catch( err => this.showAlert(err));
   }
 
 
