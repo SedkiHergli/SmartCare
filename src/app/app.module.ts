@@ -18,6 +18,7 @@ import { MapPageModule } from './pages/map/map.module';
 import { SettingsPageModule } from './pages/settings/settings.module';
 import { WeatherPageModule } from './pages/weather/weather.module';
 import { TabsModule } from './tabs/tabs.module';
+import { LocationService } from './services/location.service';
 
 export function jwtOptionsFactory(storage) {
   return {
@@ -47,6 +48,8 @@ export function jwtOptionsFactory(storage) {
     StatusBar,
     SplashScreen,
     Geolocation,
+    LocationService,
+    Storage,
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy }
   ],
   bootstrap: [AppComponent]

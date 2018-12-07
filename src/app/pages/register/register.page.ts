@@ -2,7 +2,7 @@ import { Component, OnInit, Input } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { AuthService } from '../../services/auth.service';
 import { AlertController, NavController, LoadingController } from '@ionic/angular';
-import { Geolocation} from '@ionic-native/geolocation/ngx';
+import { LocationService } from '../../services/location.service';
 
 
 @Component({
@@ -25,7 +25,7 @@ export class RegisterPage implements OnInit {
   checkAddSuper:boolean;
 
 
-  constructor(public geo: Geolocation, public loadingController: LoadingController, private formBuilder: FormBuilder, private authService: AuthService, public alertController: AlertController, private navContrl: NavController) { 
+  constructor(public locationService: LocationService, public loadingController: LoadingController, private formBuilder: FormBuilder, private authService: AuthService, public alertController: AlertController, private navContrl: NavController) { 
     this.checkAddSuper=true;
     this.requet_s={};
     this.requet_se={};
@@ -178,11 +178,11 @@ export class RegisterPage implements OnInit {
   }
 
   getLocation(){
-    var options = { maximumAge: 3000, timeout: 5000, enableHighAccuracy: true };
-    this.geo.getCurrentPosition(options).then( pos => {
-     this.lat = pos.coords.latitude;
-     this.lng = pos.coords.longitude;
-    }).catch( err => this.showAlert(err));
+    this.locationService.getLocation().then(
+      (pos)=>{
+        this.lat=pos.lat;
+        this.lng=pos.lng;
+      }).catch((err)=>console.log(err));
   }
 
 
