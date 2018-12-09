@@ -1,5 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Geolocation } from '@ionic-native/geolocation/ngx';
+import { Storage } from '@ionic/storage';
+
 
 
 @Injectable({
@@ -7,7 +9,7 @@ import { Geolocation } from '@ionic-native/geolocation/ngx';
 })
 export class LocationService {
 
-  constructor(public geo: Geolocation) { }
+  constructor(public geo: Geolocation, private storage: Storage) { }
 
   getLocation(){
     var options = { maximumAge: 3000, timeout: 5000, enableHighAccuracy: true };

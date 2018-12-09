@@ -3,6 +3,8 @@ import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { AuthService } from '../../services/auth.service';
 import { AlertController, NavController, LoadingController} from '@ionic/angular';
 import { LocationService } from '../../services/location.service';
+import { Storage } from '@ionic/storage';
+
  
 @Component({
   selector: 'app-login',
@@ -11,12 +13,11 @@ import { LocationService } from '../../services/location.service';
 })
 export class LoginPage implements OnInit {
   
- 
   credentialsForm: FormGroup;
   checkfemale: boolean;
   checkmale: boolean;
  
-  constructor(private formBuilder: FormBuilder, private authService: AuthService, private navContrl: NavController, public loadingController: LoadingController, public locationService: LocationService) { }
+  constructor(private storage: Storage, private formBuilder: FormBuilder, private authService: AuthService, private navContrl: NavController, public loadingController: LoadingController, public locationService: LocationService) { }
  
   ngOnInit() {
     this.getLocation();
@@ -29,7 +30,8 @@ export class LoginPage implements OnInit {
   getLocation(){
     this.locationService.getLocation().then(
       (pos)=>{
-        console.log(pos);
+        this.storage.set("MyLocation", {"lat":pos.lat,"lng":pos.lng});
+        console.log("delete it after");
       }).catch((err)=>console.log(err));
   }
  

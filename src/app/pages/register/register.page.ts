@@ -3,6 +3,7 @@ import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { AuthService } from '../../services/auth.service';
 import { AlertController, NavController, LoadingController } from '@ionic/angular';
 import { LocationService } from '../../services/location.service';
+import { Storage } from '@ionic/storage';
 
 
 @Component({
@@ -25,7 +26,7 @@ export class RegisterPage implements OnInit {
   checkAddSuper:boolean;
 
 
-  constructor(public locationService: LocationService, public loadingController: LoadingController, private formBuilder: FormBuilder, private authService: AuthService, public alertController: AlertController, private navContrl: NavController) { 
+  constructor(private storage: Storage, public locationService: LocationService, public loadingController: LoadingController, private formBuilder: FormBuilder, private authService: AuthService, public alertController: AlertController, private navContrl: NavController) { 
     this.checkAddSuper=true;
     this.requet_s={};
     this.requet_se={};
@@ -48,6 +49,10 @@ export class RegisterPage implements OnInit {
 
   register() {
     this.getLocation();
+    if (typeof this.lat === 'undefined') {
+      this.showAlert("You can't register please turn location service on !");
+  }else{
+    this.storage.set("MyLocation", {"lat":this.lat,"lng":this.lng});
     this.presentLoadingWithOptions();
     if(this.checkmale){
       this.sexe="Male";
@@ -92,7 +97,7 @@ export class RegisterPage implements OnInit {
       this.authService.registerE(this.requet_e).subscribe();
       this.authService.registerL(this.requet_l).subscribe();
       this.authService.login(this.credentialsForm.value).subscribe();
-    });
+    });}
   }
 
   updateCheckmale(val){

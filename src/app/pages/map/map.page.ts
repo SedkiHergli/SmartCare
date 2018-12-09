@@ -1,6 +1,8 @@
 import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { Geolocation } from '@ionic-native/geolocation/ngx';
 import { Platform } from '@ionic/angular';
+import { Storage } from '@ionic/storage';
+
 
 
 declare var google;
@@ -14,10 +16,11 @@ export class MapPage implements OnInit {
   @ViewChild('map') mapElement: ElementRef;
   map: any;
 
-  constructor(private geolocation: Geolocation, private plt: Platform) { }
+  constructor(private storage: Storage, private geolocation: Geolocation, private plt: Platform) { }
 
   ngOnInit() {
     this.ionViewDidLoad();
+    this.startNavigating();
   }
 
   ionViewDidLoad() {
@@ -40,6 +43,26 @@ export class MapPage implements OnInit {
       });
     });
   }
+  startNavigating(){
  
+    let directionsService = new google.maps.DirectionsService;
+    let directionsDisplay = new google.maps.DirectionsRenderer;
+
+    this.storage.get("MyLocation").then(mypos => {
+      directionsDisplay.setMap(this.map);
+      directionsService.route({
+       origin: mypos,
+       destination: {lat: 36.988, lng: 10.175605},
+        travelMode: google.maps.TravelMode['DRIVING']
+    }, (res, status) => {
+        if(status == google.maps.DirectionsStatus.OK){
+            directionsDisplay.setDirections(res);
+        } else {
+            console.warn(status);
+        }
+
+    });});
+
+} 
 
 }
