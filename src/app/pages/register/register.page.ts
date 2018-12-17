@@ -52,7 +52,6 @@ export class RegisterPage implements OnInit {
     if (typeof this.lat === 'undefined') {
       this.showAlert("You can't register please turn location service on !");
   }else{
-    this.storage.set("MyLocation", {"lat":this.lat,"lng":this.lng});
     this.presentLoadingWithOptions();
     if(this.checkmale){
       this.sexe="Male";

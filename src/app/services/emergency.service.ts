@@ -1,4 +1,3 @@
-import { Geolocation } from '@ionic-native/geolocation/ngx';
 import { Platform, AlertController } from '@ionic/angular';
 import { Injectable } from '@angular/core';
 import { HttpClient,HttpHeaders } from '@angular/common/http';
@@ -7,41 +6,31 @@ import { Storage } from '@ionic/storage';
 import { tap, catchError } from 'rxjs/operators';
 import { AuthService } from './auth.service';
 import { Observable } from 'rxjs';
-import { Location, LocationListService } from '../interfaces/location'
+import { Emergency, EmergencyListService } from '../interfaces/emergency'
 
 const TOKEN_KEY = 'access_token';
 const REFRESH_TOKEN_KEY = 'refresh_token';
-var location: Location ={
-  lat: '',
-  lng: '',
-  email: ''
+var emergency: Emergency ={
+  email: '',
+  status: ''
 };
-
 @Injectable({
   providedIn: 'root'
 })
-export class LocationService implements LocationListService{
-
-  constructor(public geo: Geolocation, private authService: AuthService, private http: HttpClient, private alertController: AlertController, 
+export class EmergencyService implements EmergencyListService {
+  constructor(private authService: AuthService, private http: HttpClient, private alertController: AlertController, 
     private helper: JwtHelperService, private storage: Storage) { }
 
-  getLocation(){
-    var options = { maximumAge: 3000, timeout: 5000, enableHighAccuracy: true };
-    return this.geo.getCurrentPosition(options).then( pos => {
-      var result ={"lat":pos.coords.latitude,"lng":pos.coords.longitude};
-      return result;
-    });
-  }
 
 
-getApiLocation(email,token):Observable<any> {
+getApiEmergency(email,token):Observable<any> {
   const httpOptions = {
     headers: new HttpHeaders({
       'Content-Type':  'application/json',
       'Authorization': 'Bearer' + token
     })
   };
-  return this.http.get(`${this.authService.url}/Locations/${email}`,httpOptions).pipe(
+  return this.http.get(`${this.authService.url}/Emergencys/${email}`,httpOptions).pipe(
     catchError(e => {
       this.showAlert(e.error.msg);
       throw new Error(e);
@@ -49,14 +38,14 @@ getApiLocation(email,token):Observable<any> {
   );
  }
 
-updateLocation(data,email,token){
+updateEmergency(data,email,token){
   const httpOptions = {
     headers: new HttpHeaders({
       'Content-Type':  'application/json',
       'Authorization': 'Bearer' + token
     })
   };
-  return this.http.patch(`${this.authService.url}/Locations/${email}`,data,httpOptions).pipe(
+  return this.http.patch(`${this.authService.url}/Emergencys/${email}`,data,httpOptions).pipe(
     catchError(e => {
       this.showAlert(e.error.msg);
       throw new Error(e);
@@ -64,14 +53,14 @@ updateLocation(data,email,token){
   );
 }
 
-deleteLocation(email,token){
+deleteEmergency(email,token){
   const httpOptions = {
     headers: new HttpHeaders({
       'Content-Type':  'application/json',
       'Authorization': 'Bearer' + token
     })
   };
-  return this.http.delete(`${this.authService.url}/Locations/${email}`,httpOptions).pipe(
+  return this.http.delete(`${this.authService.url}/Emergencys/${email}`,httpOptions).pipe(
     catchError(e => {
       this.showAlert(e.error.msg);
       throw new Error(e);

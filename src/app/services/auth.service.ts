@@ -104,6 +104,7 @@ export class AuthService {
           this.storage.set(TOKEN_KEY, res['accessToken']);
           this.storage.set(REFRESH_TOKEN_KEY, res['refresh_token']);
           this.user = this.helper.decodeToken(res['accessToken']);
+          this.storage.set("User",  this.user);
           this.authenticationState.next(true);
         }),
         catchError(e => {
@@ -121,6 +122,7 @@ export class AuthService {
           this.storage.set(TOKEN_KEY, res['accessToken']);
           this.storage.set(REFRESH_TOKEN_KEY, res['refresh_token']);
           this.user = this.helper.decodeToken(res['accessToken']);
+          this.storage.set("User",  this.user);
           this.authenticationState.next(true);
         }),
         catchError(e => {

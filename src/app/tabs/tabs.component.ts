@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { AuthService } from '../services/auth.service';
+
 
 @Component({
   selector: 'app-tabs',
@@ -7,13 +9,17 @@ import { Component, OnInit } from '@angular/core';
 })
 export class TabsComponent implements OnInit {
 
-  constructor() { }
+  constructor(private authService: AuthService) { }
 
   ngOnInit() {
   }
   
   tab2Selected() {
     console.log('My tab was selected!');
+  }
+
+  logout() {
+    this.authService.logout();
   }
 
 }

@@ -18,6 +18,13 @@ import { MapPageModule } from './pages/map/map.module';
 import { SettingsPageModule } from './pages/settings/settings.module';
 import { WeatherPageModule } from './pages/weather/weather.module';
 import { TabsModule } from './tabs/tabs.module';
+import { LocationService } from './services/location.service';
+import { SensorService } from './services/sensor.service';
+import { EmergencyService } from './services/emergency.service';
+import { SupervisorService } from './services/supervisor.service';
+import { UserService } from './services/user.service';
+import { AuthGuardService } from './services/auth-guard.service';
+import { AuthService } from './services/auth.service';
 
 export function jwtOptionsFactory(storage) {
   return {
@@ -47,6 +54,13 @@ export function jwtOptionsFactory(storage) {
     StatusBar,
     SplashScreen,
     Geolocation,
+    LocationService,
+    AuthGuardService,
+    AuthService,
+    UserService,
+    SupervisorService,
+    SensorService,
+    EmergencyService,
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy }
   ],
   bootstrap: [AppComponent]
