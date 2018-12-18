@@ -26,7 +26,7 @@ export class MapPage implements OnInit {
   ngOnInit() {
     this.ionViewDidLoad();
     this.startNavigating();
-    const source = interval(10000);
+    const source = interval(20000);
     this.subscription = source.subscribe(val => this.startNavigating());
   }
   ngOnDestroy() {
