@@ -8,6 +8,47 @@
 </ion-header>
  
 <ion-content padding>
-
-    <ion-button expand="full" (click)="logout()">Logout</ion-button>
+    <ion-grid style="margin: 0px;padding: 0px;">
+        <ion-row style="margin: 0px;padding: 0px;">
+          <ion-col style="margin: 0px;padding: 0px;margin-right: -5px;">
+              <ion-card style="margin: 0px;">
+                  <img src="assets/imgs/temp.png" style="display: block;margin-left: auto;margin-right: auto;width: 70%;"/>
+                  <ion-card-content>
+                    <ion-card-title style="text-align: center">
+                      {{temp}}
+                      </ion-card-title>
+                  </ion-card-content>
+                </ion-card>
+          </ion-col>
+          <ion-col style="margin: 0px;padding: 0px;margin-right: -5px;">
+              <ion-card style="margin: 0px;">
+                  <img src="assets/imgs/humidity.png" style="display: block;margin-left: auto;margin-right: auto;width: 70%;"/>
+                  <ion-card-content>
+                    <ion-card-title style="text-align: center">
+                      {{humidity}}
+                      </ion-card-title>
+                  </ion-card-content>
+                </ion-card>
+          </ion-col>
+          <ion-col style="margin: 0px;padding: 0px;">
+            <ion-card style="margin: 0px;">
+                <img [src]='weather.icon' style="display: block;margin-left: auto;margin-right: auto;width: 70%;"/>
+                <ion-card-content>
+                  <ion-card-title style="text-align: center">
+                    {{weather.description}}
+                    </ion-card-title>
+                </ion-card-content>
+              </ion-card>
+        </ion-col>
+        </ion-row>
+        <ion-row style="margin: 0px;padding: 0px;">
+          <ion-col>Battery Level</ion-col>
+          <ion-col>
+              <ion-card>
+                  <img src="assets/imgs/emergency.png"/>
+                </ion-card>
+          </ion-col>
+          <ion-col>State</ion-col>
+        </ion-row>
+      </ion-grid>
   </ion-content>

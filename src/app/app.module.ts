@@ -25,6 +25,8 @@ import { SupervisorService } from './services/supervisor.service';
 import { UserService } from './services/user.service';
 import { AuthGuardService } from './services/auth-guard.service';
 import { AuthService } from './services/auth.service';
+import { WeatherService } from './services/weather.service';
+
 
 export function jwtOptionsFactory(storage) {
   return {
@@ -61,6 +63,7 @@ export function jwtOptionsFactory(storage) {
     SupervisorService,
     SensorService,
     EmergencyService,
+    WeatherService,
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy }
   ],
   bootstrap: [AppComponent]
