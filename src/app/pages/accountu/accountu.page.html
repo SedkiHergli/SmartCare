@@ -1,5 +1,5 @@
 <ion-header>
-  <ion-toolbar>
+  <ion-toolbar style="--background: url(../assets/imgs/background16.jpg);">
     <ion-buttons slot="start">
       <ion-menu-button></ion-menu-button>
     </ion-buttons>
@@ -7,48 +7,46 @@
   </ion-toolbar>
 </ion-header>
  
-<ion-content padding>
-    <ion-grid style="margin: 0px;padding: 0px;">
-        <ion-row style="margin: 0px;padding: 0px;">
-          <ion-col style="margin: 0px;padding: 0px;margin-right: -5px;">
-              <ion-card style="margin: 0px;">
-                  <img src="assets/imgs/temp.png" style="display: block;margin-left: auto;margin-right: auto;width: 70%;"/>
-                  <ion-card-content>
-                    <ion-card-title style="text-align: center">
-                      {{temp}}
-                      </ion-card-title>
-                  </ion-card-content>
-                </ion-card>
-          </ion-col>
-          <ion-col style="margin: 0px;padding: 0px;margin-right: -5px;">
-              <ion-card style="margin: 0px;">
-                  <img src="assets/imgs/humidity.png" style="display: block;margin-left: auto;margin-right: auto;width: 70%;"/>
-                  <ion-card-content>
-                    <ion-card-title style="text-align: center">
+<ion-content style="--background: url(assets/imgs/background16.jpg) center / 100%;" padding>
+  <div class="col-container" style="background: #ffffff40;border-style: solid;border-color: #ffffff40;">
+      <div class="col">
+                      <img src="assets/imgs/temp.png" style="display: block;margin-left: auto;margin-right: auto;width: 70%;"/>
+                  <p style="text-align: center">
+                    {{temp}}
+                  </p>
+      </div>
+    <br>
+          <div class="col">
+                      <img src="assets/imgs/humidity.png" style="display: block;margin-left: auto;margin-right: auto;width: 70%;"/>
+                      <p style="text-align: center">
                       {{humidity}}
-                      </ion-card-title>
-                  </ion-card-content>
-                </ion-card>
-          </ion-col>
-          <ion-col style="margin: 0px;padding: 0px;">
-            <ion-card style="margin: 0px;">
-                <img [src]='weather.icon' style="display: block;margin-left: auto;margin-right: auto;width: 70%;"/>
-                <ion-card-content>
-                  <ion-card-title style="text-align: center">
+                     </p>
+          </div>
+          <div class="col">
+                    <img [src]='weather.icon' style="display: block;margin-left: auto;margin-right: auto;width: 70%;"/>
+                    <p style="text-align: center">
                     {{weather.description}}
-                    </ion-card-title>
-                </ion-card-content>
-              </ion-card>
-        </ion-col>
-        </ion-row>
-        <ion-row style="margin: 0px;padding: 0px;">
-          <ion-col>Battery Level</ion-col>
-          <ion-col>
-              <ion-card>
-                  <img src="assets/imgs/emergency.png"/>
-                </ion-card>
-          </ion-col>
-          <ion-col>State</ion-col>
-        </ion-row>
-      </ion-grid>
+                    </p>
+         </div>
+        </div>
+        <div class="col-container" style="background: #ffffff40;border-style: solid;border-color: #ffffff40;">
+            <div class="col">
+                            <img src="assets/imgs/level.png" style="display: block;margin-left: auto;margin-right: auto;width: 70%;"/>
+                        <p style="text-align: center">
+                          {{batt_level | number: '1.2-2'}} %
+                        </p>
+                            </div>
+                <div class="col">
+                            <img src="assets/imgs/emergency.png" style="display: block;margin-left: auto;margin-right: auto;width: 70%;"/>
+                            <p style="text-align: center">
+                             For help click here !
+                           </p>
+                </div>
+                <div class="col">
+                          <img src="assets/imgs/oki.png" style="display: block;margin-left: auto;margin-right: auto;width: 70%;"/>
+                          <p style="text-align: center">
+                          {{status}}
+                          </p>
+                </div>
+                </div>
   </ion-content>

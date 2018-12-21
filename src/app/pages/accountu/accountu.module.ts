@@ -7,6 +7,8 @@ import { IonicModule } from '@ionic/angular';
 
 import { AccountuPage } from './accountu.page';
 
+
+
 const routes: Routes = [
   {
     path: '',

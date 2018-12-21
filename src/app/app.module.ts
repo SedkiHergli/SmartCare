@@ -27,7 +27,6 @@ import { AuthGuardService } from './services/auth-guard.service';
 import { AuthService } from './services/auth.service';
 import { WeatherService } from './services/weather.service';
 
-
 export function jwtOptionsFactory(storage) {
   return {
     tokenGetter: () => {
@@ -50,7 +49,7 @@ export function jwtOptionsFactory(storage) {
       deps: [Storage],
     }
   }),
-  TabsModule
+  TabsModule,
 ],
   providers: [
     StatusBar,

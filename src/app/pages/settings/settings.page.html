@@ -1,5 +1,5 @@
 <ion-header>
-  <ion-toolbar>
+  <ion-toolbar style="--background: url(../assets/imgs/background16.jpg);">
     <ion-buttons slot="start">
       <ion-menu-button></ion-menu-button>
     </ion-buttons>
@@ -7,21 +7,21 @@
   </ion-toolbar>
 </ion-header>
  
-<ion-content padding>
-<ion-list>
-  <ion-item (click)="ChangeAccountU()">
+<ion-content style="--background: url(assets/imgs/background16.jpg) center / 100%;" >
+<ion-list style="background: #ffffff00;">
+  <ion-item (click)="ChangeAccountU()" class="onclick" style="background: #47464740;" >
     <ion-icon slot="start" name="person"></ion-icon>
     <ion-label>Modify User</ion-label>
   </ion-item>
-  <ion-item (click)="ChangePasswordU()">
+  <ion-item (click)="ChangePasswordU()" class="onclick">
     <ion-icon slot="start" name="lock"></ion-icon>
     <ion-label>Modify Password</ion-label>
   </ion-item>
-  <ion-item (click)="ChangeSupervisorU()">
+  <ion-item (click)="ChangeSupervisorU()" class="onclick" style="background: #47464740;" >
     <ion-icon slot="start" name="contact"></ion-icon>
     <ion-label>Modify Supervisor</ion-label>
   </ion-item>
-  <ion-item (click)="locationChangeConfirm()">
+  <ion-item (click)="locationChangeConfirm()" class="onclick">
     <ion-icon slot="start" name="pin"></ion-icon>
     <ion-label>Modify Home Location</ion-label>
   </ion-item>
