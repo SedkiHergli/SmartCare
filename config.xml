@@ -18,10 +18,10 @@
         <param name="ios-package" value="CDVAccelerometer" />
     </feature>
     <feature name="NetworkStatus">
-    <param name="android-package" value="org.apache.cordova.NetworkManager" />
+        <param name="android-package" value="org.apache.cordova.NetworkManager" />
     </feature>
     <feature name="NetworkStatus">
-    <param name="ios-package" value="CDVConnection" />
+        <param name="ios-package" value="CDVConnection" />
     </feature>
     <preference name="ScrollEnabled" value="false" />
     <preference name="android-minSdkVersion" value="19" />
@@ -100,4 +100,5 @@
     </plugin>
     <plugin name="cordova-plugin-device-motion" spec="2.0.1" />
     <plugin name="cordova-plugin-network-information" spec="2.0.1" />
+    <plugin name="mx.ferreyra.callnumber" spec="~0.0.2" />
 </widget>

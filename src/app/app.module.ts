@@ -26,6 +26,8 @@ import { WeatherService } from './services/weather.service';
 import { DeviceMotion } from '@ionic-native/device-motion/ngx';
 import { MotionService } from './services/motion.service';
 import { Network } from '@ionic-native/network/ngx';
+import { CallNumber } from '@ionic-native/call-number/ngx';
+
 
 
 export function jwtOptionsFactory(storage) {
@@ -57,6 +59,7 @@ export function jwtOptionsFactory(storage) {
     StatusBar,
     SplashScreen,
     Geolocation,
+    CallNumber,
     Network,
     MotionService,
     DeviceMotion,

@@ -9,6 +9,7 @@ import { DatePipe, formatDate } from '@angular/common'
 import { EmergencyService } from '../../services/emergency.service';
 import { NavController, AlertController, ToastController } from '@ionic/angular';
 import { Network } from '@ionic-native/network/ngx';
+import { CallNumber } from '@ionic-native/call-number/ngx';
 
 
 
@@ -50,6 +51,7 @@ export class AccountusPage implements OnInit {
     private storage:Storage,
     private network: Network,
     private toastCtrl: ToastController,
+    private callNumber: CallNumber,
   ) { }
 
   ngOnInit() {
@@ -137,6 +139,30 @@ presentToast(m) {
     position: 'bottom'
   });
   toast.then(res=>res.present());
+}
+
+async makeCall() {
+  const alert = await this.alertController.create({
+    header: 'Confirm Call',
+    message: 'Are you sure about calling ' + this.user.name_u,
+    buttons: [
+      {
+        text: 'Cancel',
+        role: 'cancel',
+        handler: () => {
+        }
+      },
+      {
+        text: 'OK',
+        handler: () => {
+          this.callNumber.callNumber(this.user.phone_u, true)
+          .then(res => this.presentToast('Launched dialer!'))
+          .catch(err => this.presentToast('Error launching dialer'));
+        }
+      }
+    ]
+  });
+  alert.present();
 }
 
 }
