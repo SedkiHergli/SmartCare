@@ -30,16 +30,16 @@
          </div>
         </div>
         <div class="col-container" style="background: #ffffff40;border-style: solid;border-color: #ffffff40;">
-            <div class="col">
-                            <img src="assets/imgs/level.png" style="display: block;margin-left: auto;margin-right: auto;width: 70%;"/>
+            <div class="col" (click)="goMap()">
+                            <img src="assets/imgs/user_position.png" style="display: block;margin-left: auto;margin-right: auto;width: 70%;"/>
                         <p style="text-align: center">
-                           %
+                            Find {{user?.name_u}} !
                         </p>
                             </div>
                 <div class="col" >
-                            <img src="assets/imgs/emergency.png" style="display: block;margin-left: auto;margin-right: auto;width: 70%;"/>
+                            <img src="assets/imgs/call_user.png" style="display: block;margin-left: auto;margin-right: auto;width: 70%;"/>
                             <p style="text-align: center">
-                             For help click here !
+                             Call {{user?.name_u}} !
                            </p>
                 </div>
                 <div class="col" (click)="AlertChangeStatutsOk()">

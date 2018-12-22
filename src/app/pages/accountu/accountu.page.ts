@@ -8,8 +8,9 @@ import { Weather } from '../../interfaces/weather';
 import { LocationService } from '../../services/location.service';
 import { DatePipe, formatDate } from '@angular/common'
 import { EmergencyService } from '../../services/emergency.service';
-import { NavController, AlertController } from '@ionic/angular';
+import { NavController, AlertController, ToastController } from '@ionic/angular';
 import { MotionService } from '../../services/motion.service';
+import { Network } from '@ionic-native/network/ngx';
 
 
 declare var google;
@@ -35,6 +36,7 @@ export class AccountuPage implements OnInit {
   max_v:any;
   mAH:any;
   sub:any;
+  disconnectSubscription:any;
   batt_restTime:any;
   home_restTime:any;
   subscription: Subscription;
@@ -50,9 +52,22 @@ export class AccountuPage implements OnInit {
   };
 
 
-  constructor(private motionService: MotionService, private alertController: AlertController, private navContrl: NavController,private emergencyService: EmergencyService,private locationService: LocationService, private weatherService:WeatherService, private authService: AuthService, private sensorService: SensorService, private storage:Storage) { }
+  constructor(
+    private motionService: MotionService, 
+    private alertController: AlertController, 
+    private navContrl: NavController,
+    private emergencyService: EmergencyService,
+    private locationService: LocationService, 
+    private weatherService:WeatherService, 
+    private authService: AuthService, 
+    private sensorService: SensorService, 
+    private storage:Storage,
+    private network: Network,
+    private toastCtrl: ToastController,
+  ) { }
 
   ngOnInit() {
+    this.verifyConnection();
     this.watchStability();
     if(!this.token){
       this.storage.get("access_token").then(tokenn => {
@@ -82,6 +97,13 @@ export class AccountuPage implements OnInit {
   ngOnDestroy() {
     this.subscription.unsubscribe();
     this.sub.unsubscribe();
+    this.disconnectSubscription.unsubscribe();
+  }
+
+  verifyConnection(){
+    this.disconnectSubscription = this.network.onDisconnect().subscribe(() => {
+      this.presentToast("Please turn on your connection !");
+    });
   }
 
   logout() {
@@ -221,6 +243,15 @@ watchStability(){
     this.statusIcon="assets/imgs/alert.png";
     this.status="ALERT !";
   }
+}
+
+presentToast(m) {
+  let toast = this.toastCtrl.create({
+    message: m,
+    duration: 1500,
+    position: 'bottom'
+  });
+  toast.then(res=>res.present());
 }
 
 }

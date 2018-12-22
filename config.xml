@@ -15,7 +15,13 @@
         <param name="android-package" value="org.apache.cordova.AccelListener" />
     </feature>
     <feature name="Accelerometer">
-    <param name="ios-package" value="CDVAccelerometer" />
+        <param name="ios-package" value="CDVAccelerometer" />
+    </feature>
+    <feature name="NetworkStatus">
+    <param name="android-package" value="org.apache.cordova.NetworkManager" />
+    </feature>
+    <feature name="NetworkStatus">
+    <param name="ios-package" value="CDVConnection" />
     </feature>
     <preference name="ScrollEnabled" value="false" />
     <preference name="android-minSdkVersion" value="19" />
@@ -93,4 +99,5 @@
         <variable name="GEOLOCATION_USAGE_DESCRIPTION" value="To locate you" />
     </plugin>
     <plugin name="cordova-plugin-device-motion" spec="2.0.1" />
+    <plugin name="cordova-plugin-network-information" spec="2.0.1" />
 </widget>

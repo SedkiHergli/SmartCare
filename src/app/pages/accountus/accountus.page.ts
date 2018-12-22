@@ -7,7 +7,9 @@ import { Weather } from '../../interfaces/weather';
 import { LocationService } from '../../services/location.service';
 import { DatePipe, formatDate } from '@angular/common'
 import { EmergencyService } from '../../services/emergency.service';
-import { NavController, AlertController } from '@ionic/angular';
+import { NavController, AlertController, ToastController } from '@ionic/angular';
+import { Network } from '@ionic-native/network/ngx';
+
 
 
 declare var google;
@@ -25,6 +27,7 @@ export class AccountusPage implements OnInit {
   user:any;
   token:any;
   subscription: Subscription;
+  disconnectSubscription:any;
   weather:Weather={
     city:'',
     lastUp:'',
@@ -37,9 +40,20 @@ export class AccountusPage implements OnInit {
   };
 
 
-  constructor(private alertController: AlertController, private navContrl: NavController,private emergencyService: EmergencyService,private locationService: LocationService, private weatherService:WeatherService, private authService: AuthService, private storage:Storage) { }
+  constructor(
+    private alertController: AlertController,
+    private navContrl: NavController,
+    private emergencyService: EmergencyService,
+    private locationService: LocationService, 
+    private weatherService:WeatherService, 
+    private authService: AuthService, 
+    private storage:Storage,
+    private network: Network,
+    private toastCtrl: ToastController,
+  ) { }
 
   ngOnInit() {
+    this.verifyConnection();
     if(!this.token){
       this.storage.get("access_token").then(tokenn => {
         this.token=tokenn;
@@ -61,6 +75,13 @@ export class AccountusPage implements OnInit {
   
   ngOnDestroy() {
     this.subscription.unsubscribe();
+    this.disconnectSubscription.unsubscribe();
+  }
+
+  verifyConnection(){
+    this.disconnectSubscription = this.network.onDisconnect().subscribe(() => {
+      this.presentToast("Please turn on your connection !");
+    });
   }
 
   logout() {
@@ -87,6 +108,9 @@ export class AccountusPage implements OnInit {
 openWeather(){
   this.navContrl.navigateRoot('/tabss/(weather:weather)');
 }
+goMap(){
+  this.navContrl.navigateRoot('/tabss/(maps:maps)');
+}
 
 getEmergency(){
   this.emergencyService.getApiEmergency(this.user.email_u,this.token).subscribe(result=>{
@@ -104,6 +128,15 @@ getEmergency(){
       this.statusIcon="assets/imgs/oki.png"; 
     }
   });
+}
+
+presentToast(m) {
+  let toast = this.toastCtrl.create({
+    message: m,
+    duration: 1500,
+    position: 'bottom'
+  });
+  toast.then(res=>res.present());
 }
 
 }

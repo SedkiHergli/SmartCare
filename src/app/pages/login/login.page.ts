@@ -1,9 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { AuthService } from '../../services/auth.service';
-import { AlertController, NavController, LoadingController} from '@ionic/angular';
+import { AlertController, NavController, LoadingController, ToastController} from '@ionic/angular';
 import { LocationService } from '../../services/location.service';
 import { Storage } from '@ionic/storage';
+import { Network } from '@ionic-native/network/ngx';
 
  
 @Component({
@@ -16,23 +17,35 @@ export class LoginPage implements OnInit {
   credentialsForm: FormGroup;
   checksuper: boolean;
   checkuser: boolean;
+  disconnectSubscription:any;
  
-  constructor(private storage: Storage, private formBuilder: FormBuilder, private authService: AuthService, private navContrl: NavController, public loadingController: LoadingController, public locationService: LocationService) { }
+  constructor(
+    private storage: Storage, 
+    private formBuilder: FormBuilder, 
+    private authService: AuthService, 
+    private navContrl: NavController, 
+    public loadingController: LoadingController, 
+    public locationService: LocationService,
+    private network: Network,
+    private toastCtrl: ToastController
+  ) { }
  
   ngOnInit() {
-    this.getLocation();
+    this.verifyConnection();
     this.credentialsForm = this.formBuilder.group({
       email: ['', [Validators.required, Validators.email]],
       password: ['', [Validators.required, Validators.minLength(6)]]
     });
   }
 
-  getLocation(){
-    this.locationService.getLocation().then(
-      (pos)=>{
-        this.storage.set("MyLocation", {"lat":pos.lat,"lng":pos.lng});
-        console.log("delete it after");
-      }).catch((err)=>console.log(err));
+  ngOnDestroy() {
+    this.disconnectSubscription.unsubscribe();
+  }
+
+  verifyConnection(){
+    this.disconnectSubscription = this.network.onDisconnect().subscribe(() => {
+      this.presentToast("Please turn on your connection !");
+    });
   }
  
   onSubmit() {
@@ -73,6 +86,15 @@ export class LoginPage implements OnInit {
       cssClass: 'custom-class custom-loading'
     });
     return await loading.present();
+  }
+
+  presentToast(m) {
+    let toast = this.toastCtrl.create({
+      message: m,
+      duration: 1500,
+      position: 'bottom'
+    });
+    toast.then(res=>res.present());
   }
 
 
