@@ -9,6 +9,7 @@ import { LocationService } from '../../services/location.service';
 import { DatePipe, formatDate } from '@angular/common'
 import { EmergencyService } from '../../services/emergency.service';
 import { NavController, AlertController } from '@ionic/angular';
+import { MotionService } from '../../services/motion.service';
 
 
 declare var google;
@@ -33,6 +34,7 @@ export class AccountuPage implements OnInit {
   min_v:any;
   max_v:any;
   mAH:any;
+  sub:any;
   batt_restTime:any;
   home_restTime:any;
   subscription: Subscription;
@@ -48,9 +50,10 @@ export class AccountuPage implements OnInit {
   };
 
 
-  constructor(private alertController: AlertController, private navContrl: NavController,private emergencyService: EmergencyService,private locationService: LocationService, private weatherService:WeatherService, private authService: AuthService, private sensorService: SensorService, private storage:Storage) { }
+  constructor(private motionService: MotionService, private alertController: AlertController, private navContrl: NavController,private emergencyService: EmergencyService,private locationService: LocationService, private weatherService:WeatherService, private authService: AuthService, private sensorService: SensorService, private storage:Storage) { }
 
   ngOnInit() {
+    this.watchStability();
     if(!this.token){
       this.storage.get("access_token").then(tokenn => {
         this.token=tokenn;
@@ -62,17 +65,23 @@ export class AccountuPage implements OnInit {
             this.startNavigating();
             const source = interval(10000);
             this.subscription = source.subscribe(val => {
+            if(this.motionService.alert){
+              this.statusIcon="assets/imgs/alert.png";
+              this.status="ALERT !";
+            }
             this.getSensorData();
             this.getWeather();
             this.startNavigating();
             });
           });}      
     });}  
+    
 
   }
   
   ngOnDestroy() {
     this.subscription.unsubscribe();
+    this.sub.unsubscribe();
   }
 
   logout() {
@@ -164,6 +173,7 @@ async AlertChangeStatutsOk() {
                 this.emergencyService.updateEmergency({"status":"OK"},this.user.email,this.token).subscribe();
                 this.statusIcon="assets/imgs/oki.png";
                 this.status="Ok !"
+                this.motionService.alert=false;
               });
             });
         }
@@ -193,7 +203,7 @@ async AlertChangeStatuts() {
               this.storage.get("User").then(userr => {
                 this.emergencyService.updateEmergency({"status":"ALERTN"},this.user.email,this.token).subscribe();
                 this.statusIcon="assets/imgs/alert.png";
-                this.status="ALERT !"
+                this.status="ALERT !";
                 
               });
             });
@@ -203,6 +213,14 @@ async AlertChangeStatuts() {
   });
 
   await alert.present();
+}
+
+watchStability(){
+  this.sub = this.motionService.getMotion();
+  if(this.motionService.alert){
+    this.statusIcon="assets/imgs/alert.png";
+    this.status="ALERT !";
+  }
 }
 
 }
