@@ -66,7 +66,6 @@ export class MapPage implements OnInit {
       }, (res, status) => {
           if(status == google.maps.DirectionsStatus.OK){
               directionsDisplay.setDirections(res);
-              //this.distanceView=res.routes[0].legs[0].distance.value.text;
               this.storage.set("distance_m", res.routes[0].legs[0].distance.value);
           } else {
               console.warn(status);
