@@ -1,35 +1,35 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-import { TabsComponent } from './tabs.component';
-import { AccountuPage } from '../pages/accountu/accountu.page';
-import { MapPage } from '../pages/map/map.page';
+import { TabssComponent } from './tabss.component';
+import { AccountusPage } from '../pages/accountus/accountus.page';
+import { MapsPage } from '../pages/maps/maps.page';
 import { WeatherPage } from '../pages/weather/weather.page';
-import { SettingsPage } from '../pages/settings/settings.page';
+import { SettingssPage } from '../pages/settingss/settingss.page';
 import { AuthGuardService } from './../services/auth-guard.service';
 
 
 const routes: Routes = [
   {
-    path: 'tabs',
-    component: TabsComponent,
+    path: 'tabss',
+    component: TabssComponent,
     children: [
       {
         path: '',
-        redirectTo: '/tabs/(accountu:accountu)',
+        redirectTo: '/tabss/(accountus:accountus)',
         pathMatch: 'full',
         canActivate: [AuthGuardService],
       },
       {
-        path: 'accountu',
-        outlet: 'accountu',
-        component: AccountuPage,
+        path: 'accountus',
+        outlet: 'accountus',
+        component: AccountusPage,
         canActivate: [AuthGuardService],
 
       },
       {
-        path: 'map',
-        outlet: 'map',
-        component: MapPage,
+        path: 'maps',
+        outlet: 'maps',
+        component: MapsPage,
         canActivate: [AuthGuardService],
 
       },
@@ -41,9 +41,9 @@ const routes: Routes = [
 
       },
       {
-        path: 'settings',
-        outlet: 'settings',
-        component: SettingsPage,
+        path: 'settingss',
+        outlet: 'settingss',
+        component: SettingssPage,
         canActivate: [AuthGuardService],
 
       }
@@ -51,7 +51,7 @@ const routes: Routes = [
   },
   {
     path: '',
-    redirectTo: '/tabs/(accountu:accountu)',
+    redirectTo: '/tabss/(accountus:accountus)',
     pathMatch: 'full',
     canActivate: [AuthGuardService],
   }
@@ -61,4 +61,4 @@ const routes: Routes = [
   imports: [RouterModule.forChild(routes)],
   exports: [RouterModule]
 })
-export class TabsRoutingModule { }
+export class TabssRoutingModule { }

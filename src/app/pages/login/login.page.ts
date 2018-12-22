@@ -14,8 +14,8 @@ import { Storage } from '@ionic/storage';
 export class LoginPage implements OnInit {
   
   credentialsForm: FormGroup;
-  checkfemale: boolean;
-  checkmale: boolean;
+  checksuper: boolean;
+  checkuser: boolean;
  
   constructor(private storage: Storage, private formBuilder: FormBuilder, private authService: AuthService, private navContrl: NavController, public loadingController: LoadingController, public locationService: LocationService) { }
  
@@ -36,25 +36,31 @@ export class LoginPage implements OnInit {
   }
  
   onSubmit() {
-    this.presentLoadingWithOptions();
-    this.authService.login(this.credentialsForm.value).subscribe();
+    if(this.checkuser){
+    this.authService.login(this.credentialsForm.value).subscribe(resp=>this.presentLoadingWithOptions());
+  }
+    else if (this.checksuper) {
+      this.authService.loginS(this.credentialsForm.value).subscribe(resp=>this.presentLoadingWithOptions());
+    } else {
+      console.log("Please choose profile type !");
+    }
   }
  
   registerP() {
     this.navContrl.navigateRoot('/register');
   }
   
-  updateCheckmale(val){
-    if(val.detail.checked && !this.checkmale){
-      this.checkfemale=false;
-      this.checkmale=true;
+  updateCheckuser(val){
+    if(val.detail.checked && !this.checkuser){
+      this.checksuper=false;
+      this.checkuser=true;
     }
   }
 
-  updateCheckfemale(val){
-    if(val.detail.checked && !this.checkfemale){
-      this.checkmale=false;
-      this.checkfemale=true;
+  updateChecksuper(val){
+    if(val.detail.checked && !this.checksuper){
+      this.checkuser=false;
+      this.checksuper=true;
     }
   }
  

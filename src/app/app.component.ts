@@ -38,7 +38,13 @@ export class AppComponent {
 
       this.authService.authenticationState.subscribe(state => {
         if (state) {
-          this.router.navigate(['tabs']);
+          this.authService.accountType.subscribe(type=>{
+            if(type){
+              this.router.navigate(['tabss']);
+            } else{
+              this.router.navigate(['tabs']);
+            }
+          });
         } else {
           this.router.navigate(['login']);
         }

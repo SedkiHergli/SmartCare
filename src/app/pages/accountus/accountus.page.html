@@ -1,0 +1,52 @@
+<ion-header>
+  <ion-toolbar style="--background: url(../assets/imgs/background16.jpg);">
+    <ion-buttons slot="start">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+    <ion-title>My Account</ion-title>
+  </ion-toolbar>
+</ion-header>
+ 
+<ion-content style="--background: url(assets/imgs/background16.jpg) center / 100%;" padding>
+  <div class="col-container" style="background: #ffffff40;border-style: solid;border-color: #ffffff40;">
+      <div class="col" (click)="openWeather()">
+                      <img src="assets/imgs/temp.png" style="display: block;margin-left: auto;margin-right: auto;width: 70%;"/>
+                  <p style="text-align: center">
+                    {{weather.temperature}}
+                  </p>
+      </div>
+    <br>
+          <div class="col" (click)="openWeather()">
+                      <img src="assets/imgs/humidity.png" style="display: block;margin-left: auto;margin-right: auto;width: 70%;"/>
+                      <p style="text-align: center">
+                      {{weather.humidity}}
+                     </p>
+          </div>
+          <div class="col" (click)="openWeather()">
+                    <img [src]='weather.icon' style="display: block;margin-left: auto;margin-right: auto;width: 70%;"/>
+                    <p style="text-align: center">
+                    {{weather.description}}
+                    </p>
+         </div>
+        </div>
+        <div class="col-container" style="background: #ffffff40;border-style: solid;border-color: #ffffff40;">
+            <div class="col">
+                            <img src="assets/imgs/level.png" style="display: block;margin-left: auto;margin-right: auto;width: 70%;"/>
+                        <p style="text-align: center">
+                           %
+                        </p>
+                            </div>
+                <div class="col" >
+                            <img src="assets/imgs/emergency.png" style="display: block;margin-left: auto;margin-right: auto;width: 70%;"/>
+                            <p style="text-align: center">
+                             For help click here !
+                           </p>
+                </div>
+                <div class="col" (click)="AlertChangeStatutsOk()">
+                          <img [src]='statusIcon' style="display: block;margin-left: auto;margin-right: auto;width: 70%;"/>
+                          <p style="text-align: center">
+                          {{status}}
+                          </p>
+                </div>
+                </div>
+  </ion-content>

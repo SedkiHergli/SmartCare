@@ -1,0 +1,47 @@
+<ion-tabs>
+  
+  <ion-tab-bar slot="bottom">
+    <ion-tab-button tab="accountus" href="/tabss/(accountus:accountus)">
+      <ion-icon name="person"></ion-icon>
+      <ion-label>Account</ion-label>
+    </ion-tab-button>
+
+    <ion-tab-button tab="maps"  href="/tabss/(maps:maps)" (click)="tab2Selected()">
+      <ion-icon name="map"></ion-icon>
+      <ion-label>map</ion-label>
+    </ion-tab-button>
+
+    <ion-tab-button tab="weather"  href="/tabss/(weather:weather)" (click)="tab2Selected()">
+      <ion-icon name="sunny"></ion-icon>
+      <ion-label>Weather</ion-label>
+    </ion-tab-button>
+
+    <ion-tab-button tab="settingss"  href="/tabss/(settingss:settingss)" (click)="tab2Selected()">
+      <ion-icon name="settings"></ion-icon>
+      <ion-label>settings</ion-label>
+    </ion-tab-button>
+
+    <ion-tab-button tab="logout" (click)="logout()">
+      <ion-icon name="log-out"></ion-icon>
+      <ion-label>Logout</ion-label>
+    </ion-tab-button>
+
+  </ion-tab-bar>
+
+  <ion-tab tab="accountus">
+    <ion-router-outlet name="accountus"></ion-router-outlet>
+  </ion-tab>
+
+  <ion-tab tab="maps">
+    <ion-router-outlet name="maps"></ion-router-outlet>
+  </ion-tab>
+
+  <ion-tab tab="weather">
+    <ion-router-outlet name="weather"></ion-router-outlet>
+  </ion-tab>
+
+  <ion-tab tab="settingss">
+    <ion-router-outlet name="settingss"></ion-router-outlet>
+  </ion-tab>
+  
+</ion-tabs>

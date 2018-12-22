@@ -18,6 +18,7 @@ export class AuthService {
   url = environment.url;
   user = null;
   authenticationState = new BehaviorSubject(false);
+  accountType = new BehaviorSubject(false);
  
   constructor(private http: HttpClient, private helper: JwtHelperService, private storage: Storage,
     private plt: Platform, private alertController: AlertController) {
@@ -36,6 +37,9 @@ export class AuthService {
         if (!isExpired) {
           this.user = decoded;
           this.authenticationState.next(true);
+          if(this.user.stype === "Supervisor"){
+            this.accountType.next(true);
+          }
         } else {
           this.storage.remove(TOKEN_KEY);
           this.storage.remove(REFRESH_TOKEN_KEY);
@@ -107,6 +111,7 @@ export class AuthService {
           this.user = this.helper.decodeToken(res['accessToken']);
           this.storage.set("User",  this.user);
           this.authenticationState.next(true);
+          this.accountType.next(false);
         }),
         catchError(e => {
           this.showAlert(e.error.msg);
@@ -125,6 +130,7 @@ export class AuthService {
           this.user = this.helper.decodeToken(res['accessToken']);
           this.storage.set("User",  this.user);
           this.authenticationState.next(true);
+          this.accountType.next(true);
         }),
         catchError(e => {
           this.showAlert(e.error.msg);
