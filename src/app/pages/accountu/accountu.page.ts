@@ -149,6 +149,7 @@ export class AccountuPage implements OnInit {
                 this.status="OK !";
                 this.stat="OK";
                 this.statusIcon="assets/imgs/oki.png";
+                this.emergencyService.updateEmergency({"status":"OK"},this.user.email,this.token).subscribe();
               }
             }
           });      
