@@ -14,7 +14,8 @@ import { PhonegapLocalNotification } from '@ionic-native/phonegap-local-notifica
 
 
 declare var google;
-
+const TOKEN_KEY = 'access_token';
+const REFRESH_TOKEN_KEY = 'refresh_token';
 
 
 @Component({
@@ -29,6 +30,7 @@ export class AccountusPage implements OnInit {
   user:any;
   token:any;
   subscription: Subscription;
+  subscriptionn: Subscription;
   disconnectSubscription:any;
   weather:Weather={
     city:'',
@@ -58,6 +60,15 @@ export class AccountusPage implements OnInit {
 
   ngOnInit() {
     this.verifyConnection();
+    const sourcee = interval(3599000);
+    this.subscriptionn = sourcee.subscribe(val => {
+      this.storage.get(REFRESH_TOKEN_KEY).then(tokeni => {
+        this.storage.get(TOKEN_KEY).then(tokenn => {
+        this.authService.updateToken("auths",tokeni,tokenn).subscribe(resp=>{
+          this.storage.set(TOKEN_KEY,resp["access_token"]);
+        });
+      });});      
+      });
     if(!this.token){
       this.storage.get("access_token").then(tokenn => {
         this.token=tokenn;
@@ -79,6 +90,7 @@ export class AccountusPage implements OnInit {
   
   ngOnDestroy() {
     this.subscription.unsubscribe();
+    this.subscriptionn.unsubscribe();
     this.disconnectSubscription.unsubscribe();
   }
 

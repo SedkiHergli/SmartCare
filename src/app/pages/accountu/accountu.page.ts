@@ -14,6 +14,8 @@ import { Network } from '@ionic-native/network/ngx';
 
 
 declare var google;
+const TOKEN_KEY = 'access_token';
+const REFRESH_TOKEN_KEY = 'refresh_token';
 
 
 
@@ -40,6 +42,7 @@ export class AccountuPage implements OnInit {
   batt_restTime:any;
   home_restTime:any;
   subscription: Subscription;
+  subscriptionn: Subscription;
   weather:Weather={
     city:'',
     lastUp:'',
@@ -68,6 +71,16 @@ export class AccountuPage implements OnInit {
 
   ngOnInit() {
     this.verifyConnection();
+    const sourcee = interval(3599000);
+    this.subscriptionn = sourcee.subscribe(val => {
+      this.storage.get(REFRESH_TOKEN_KEY).then(tokeni => {
+        this.storage.get(TOKEN_KEY).then(tokenn => {
+        this.authService.updateToken("auth",tokeni,tokenn).subscribe(resp=>{
+          this.storage.set(TOKEN_KEY,resp["access_token"]);
+        });
+      });});      
+      });
+
     this.watchStability();
     if(!this.token){
       this.storage.get("access_token").then(tokenn => {

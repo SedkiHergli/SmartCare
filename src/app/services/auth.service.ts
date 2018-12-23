@@ -1,6 +1,6 @@
 import { Platform, AlertController } from '@ionic/angular';
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { JwtHelperService } from '@auth0/angular-jwt';
 import { Storage } from '@ionic/storage';
 import { environment } from '../../environments/environment';
@@ -47,6 +47,22 @@ export class AuthService {
       }
     });
   }
+
+    //Verify Token
+    updateToken(adress,tokeni,tokenn) {
+        const httpOptions = {
+          headers: new HttpHeaders({
+            'Content-Type':  'application/json',
+            'Authorization': 'Bearer' + tokenn
+          })
+        };
+          var data ={"refresh_token":tokeni};
+          return this.http.post(`${this.url}/${adress}/refresh`, data, httpOptions).pipe(
+            catchError(e => {
+              throw new Error(e);
+            })
+          );
+    }
 
 
  //register User
@@ -106,7 +122,7 @@ export class AuthService {
       .pipe(
         tap(res => {
           this.storage.set(TOKEN_KEY, res['accessToken']);
-          this.storage.set(REFRESH_TOKEN_KEY, res['refresh_token']);
+          this.storage.set(REFRESH_TOKEN_KEY, res['refreshToken']);
           this.storage.set("motion",{"x":"9.0","y":"0.0","z":"5.0"});
           this.user = this.helper.decodeToken(res['accessToken']);
           this.storage.set("User",  this.user);
@@ -126,11 +142,12 @@ export class AuthService {
       .pipe(
         tap(res => {
           this.storage.set(TOKEN_KEY, res['accessToken']);
-          this.storage.set(REFRESH_TOKEN_KEY, res['refresh_token']);
+          this.storage.set(REFRESH_TOKEN_KEY, res['refreshToken']);
           this.user = this.helper.decodeToken(res['accessToken']);
           this.storage.set("User",  this.user);
           this.authenticationState.next(true);
           this.accountType.next(true);
+          console.log(res)
         }),
         catchError(e => {
           this.showAlert(e.error.msg);
