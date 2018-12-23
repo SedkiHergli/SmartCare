@@ -10,7 +10,7 @@ import { EmergencyService } from '../../services/emergency.service';
 import { NavController, AlertController, ToastController } from '@ionic/angular';
 import { Network } from '@ionic-native/network/ngx';
 import { CallNumber } from '@ionic-native/call-number/ngx';
-
+import { PhonegapLocalNotification } from '@ionic-native/phonegap-local-notification/ngx';
 
 
 declare var google;
@@ -24,6 +24,7 @@ declare var google;
 })
 export class AccountusPage implements OnInit {
   status:any="OK !";
+  sugset:any;
   statusIcon:any="assets/imgs/oki.png";
   user:any;
   token:any;
@@ -52,6 +53,7 @@ export class AccountusPage implements OnInit {
     private network: Network,
     private toastCtrl: ToastController,
     private callNumber: CallNumber,
+    private localNotification: PhonegapLocalNotification,
   ) { }
 
   ngOnInit() {
@@ -119,12 +121,18 @@ getEmergency(){
     if(result[0].status === "ALERTS"){
       this.status=this.user.name_u + " loses stability !";
       this.statusIcon="assets/imgs/alert.png";
+      this.sugset = "You may find him with map !";
+      this.showNotification();
     }else if (result[0].status === "ALERTN") {
       this.status=this.user.name_u + " need your help !";
       this.statusIcon="assets/imgs/alert.png"; 
+      this.sugset = "You may call him !";
+      this.showNotification();
     } else if (result[0].status === "ALERTB") {
       this.status=this.user.name_u + " is losing energy !";
       this.statusIcon="assets/imgs/alert.png"; 
+      this.sugset = "You may call him !";
+      this.showNotification();
     }else{
       this.status="OK !";
       this.statusIcon="assets/imgs/oki.png"; 
@@ -163,6 +171,23 @@ async makeCall() {
     ]
   });
   alert.present();
+}
+
+//here modify
+showNotification(){
+  this.localNotification.requestPermission().then(
+    (permission) => {
+      if (permission === 'granted') {
+        // Create the notification
+        this.localNotification.create('ALERT !', {
+          tag: this.user.name_u + 'need your help !',
+          body: this.sugset,
+          icon: 'assets/icon/alert.png'
+        });
+  
+      }
+    }
+  );
 }
 
 }

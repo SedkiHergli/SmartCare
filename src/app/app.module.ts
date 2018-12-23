@@ -27,7 +27,7 @@ import { DeviceMotion } from '@ionic-native/device-motion/ngx';
 import { MotionService } from './services/motion.service';
 import { Network } from '@ionic-native/network/ngx';
 import { CallNumber } from '@ionic-native/call-number/ngx';
-
+import { PhonegapLocalNotification } from '@ionic-native/phonegap-local-notification/ngx';
 
 
 export function jwtOptionsFactory(storage) {
@@ -59,6 +59,7 @@ export function jwtOptionsFactory(storage) {
     StatusBar,
     SplashScreen,
     Geolocation,
+    PhonegapLocalNotification,
     CallNumber,
     Network,
     MotionService,
