@@ -26,6 +26,7 @@ const REFRESH_TOKEN_KEY = 'refresh_token';
 })
 export class AccountuPage implements OnInit {
   status:any="Ok !";
+  stat:any="Ok";
   statusIcon:any="assets/imgs/oki.png";
   user:any;
   token:any;
@@ -96,6 +97,7 @@ export class AccountuPage implements OnInit {
             if(this.motionService.alert){
               this.statusIcon="assets/imgs/alert.png";
               this.status="ALERT !";
+              this.stat="ALERTS"
             }
             this.getSensorData();
             this.getWeather();
@@ -133,14 +135,21 @@ export class AccountuPage implements OnInit {
           this.min_v=res[0].min_v;
           this.mAH=res[0].battery_mah;
           this.batt_level=Number(((Number(this.voltage)-Number(this.min_v))/(Number(this.max_v)-Number(this.min_v)))*100);
-          this.status = "Ok !"
           this.storage.get("distance_m").then(dist=>{
             this.home_restTime = (Number(dist)/1000)/6.3;
             this.batt_restTime = this.mAH * (this.batt_level / 100) / (Number(this.current)*1000);
             if(this.batt_restTime<=this.home_restTime){
               this.emergencyService.updateEmergency({"status":"ALERTB"},this.user.email,this.token).subscribe();
               this.status="ALERT !";
+              this.stat="ALERTB";
               this.statusIcon="assets/imgs/alert.png";
+            }
+            else{
+              if(this.stat==="ALERTB"){
+                this.status="OK !";
+                this.stat="OK";
+                this.statusIcon="assets/imgs/oki.png";
+              }
             }
           });      
         });
@@ -208,6 +217,7 @@ async AlertChangeStatutsOk() {
                 this.emergencyService.updateEmergency({"status":"OK"},this.user.email,this.token).subscribe();
                 this.statusIcon="assets/imgs/oki.png";
                 this.status="Ok !"
+                this.stat="OK";
                 this.motionService.alert=false;
               });
             });

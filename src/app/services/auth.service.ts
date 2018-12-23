@@ -147,7 +147,6 @@ export class AuthService {
           this.storage.set("User",  this.user);
           this.authenticationState.next(true);
           this.accountType.next(true);
-          console.log(res)
         }),
         catchError(e => {
           this.showAlert(e.error.msg);
