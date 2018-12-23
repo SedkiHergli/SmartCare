@@ -6,7 +6,7 @@ import { TabssComponent } from './tabss.component';
 import { AccountusPageModule } from '../pages/accountus/accountus.module';
 import { IonicModule } from '@ionic/angular';
 import { MapsPageModule } from '../pages/maps/maps.module';
-import { WeatherPageModule } from '../pages/weather/weather.module';
+import { WeathersPageModule } from '../pages/weathers/weathers.module';
 import { SettingssPageModule } from '../pages/settingss/settingss.module';
 
 @NgModule({
@@ -16,7 +16,7 @@ import { SettingssPageModule } from '../pages/settingss/settingss.module';
     TabssRoutingModule,
     AccountusPageModule,
     MapsPageModule,
-    WeatherPageModule,
+    WeathersPageModule,
     SettingssPageModule
   ],  
   declarations: [TabssComponent]

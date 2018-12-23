@@ -3,7 +3,7 @@ import { Routes, RouterModule } from '@angular/router';
 import { TabssComponent } from './tabss.component';
 import { AccountusPage } from '../pages/accountus/accountus.page';
 import { MapsPage } from '../pages/maps/maps.page';
-import { WeatherPage } from '../pages/weather/weather.page';
+import { WeathersPage } from '../pages/weathers/weathers.page';
 import { SettingssPage } from '../pages/settingss/settingss.page';
 import { AuthGuardService } from './../services/auth-guard.service';
 
@@ -34,9 +34,9 @@ const routes: Routes = [
 
       },
       {
-        path: 'weather',
-        outlet: 'weather',
-        component: WeatherPage,
+        path: 'weathers',
+        outlet: 'weathers',
+        component: WeathersPage,
         canActivate: [AuthGuardService],
 
       },
