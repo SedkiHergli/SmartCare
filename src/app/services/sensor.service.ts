@@ -39,7 +39,7 @@ getApiSensor(email,token):Observable<any> {
   };
   return this.http.get(`${this.authService.url}/Sensors/${email}`,httpOptions).pipe(
     catchError(e => {
-      this.showAlert(e.error.msg);
+
       throw new Error(e);
     })
   );
@@ -54,7 +54,7 @@ updateSensor(data,email,token){
   };
   return this.http.patch(`${this.authService.url}/Sensors/${email}`,data,httpOptions).pipe(
     catchError(e => {
-      this.showAlert(e.error.msg);
+
       throw new Error(e);
     })
   );
@@ -69,7 +69,7 @@ deleteSensor(email,token){
   };
   return this.http.delete(`${this.authService.url}/Sensors/${email}`,httpOptions).pipe(
     catchError(e => {
-      this.showAlert(e.error.msg);
+
       throw new Error(e);
     })
   );

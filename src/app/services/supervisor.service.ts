@@ -38,7 +38,7 @@ getApiSupervisor(email,token):Observable<any> {
   };
   return this.http.get(`${this.authService.url}/supers/${email}`,httpOptions).pipe(
     catchError(e => {
-      this.showAlert(e.error.msg);
+
       throw new Error(e);
     })
   );
@@ -53,7 +53,7 @@ updateSupervisor(data,email,token){
   };
   return this.http.patch(`${this.authService.url}/supers/${email}`,data,httpOptions).pipe(
     catchError(e => {
-      this.showAlert(e.error.msg);
+
       throw new Error(e);
     })
   );
@@ -68,7 +68,7 @@ deleteSupervisor(email,token){
   };
   return this.http.delete(`${this.authService.url}/supers/${email}`,httpOptions).pipe(
     catchError(e => {
-      this.showAlert(e.error.msg);
+
       throw new Error(e);
     })
   );

@@ -43,7 +43,7 @@ getApiLocation(email,token):Observable<any> {
   };
   return this.http.get(`${this.authService.url}/Locations/${email}`,httpOptions).pipe(
     catchError(e => {
-      this.showAlert(e.error.msg);
+
       throw new Error(e);
     })
   );
@@ -58,7 +58,7 @@ updateLocation(data,email,token){
   };
   return this.http.patch(`${this.authService.url}/Locations/${email}`,data,httpOptions).pipe(
     catchError(e => {
-      this.showAlert(e.error.msg);
+
       throw new Error(e);
     })
   );
@@ -73,7 +73,7 @@ deleteLocation(email,token){
   };
   return this.http.delete(`${this.authService.url}/Locations/${email}`,httpOptions).pipe(
     catchError(e => {
-      this.showAlert(e.error.msg);
+
       throw new Error(e);
     })
   );

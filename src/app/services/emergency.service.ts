@@ -32,7 +32,7 @@ getApiEmergency(email,token):Observable<any> {
   };
   return this.http.get(`${this.authService.url}/Emergencys/${email}`,httpOptions).pipe(
     catchError(e => {
-      this.showAlert(e.error.msg);
+
       throw new Error(e);
     })
   );
@@ -47,7 +47,7 @@ updateEmergency(data,email,token){
   };
   return this.http.patch(`${this.authService.url}/Emergencys/${email}`,data,httpOptions).pipe(
     catchError(e => {
-      this.showAlert(e.error.msg);
+
       throw new Error(e);
     })
   );
@@ -62,7 +62,7 @@ deleteEmergency(email,token){
   };
   return this.http.delete(`${this.authService.url}/Emergencys/${email}`,httpOptions).pipe(
     catchError(e => {
-      this.showAlert(e.error.msg);
+
       throw new Error(e);
     })
   );

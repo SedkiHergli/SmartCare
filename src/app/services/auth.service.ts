@@ -75,7 +75,6 @@ export class AuthService {
   register(credentials) {
     return this.http.post(`${this.url}/users`, credentials).pipe(
       catchError(e => {
-        this.showAlert(e.error.msg);
         throw new Error(e);
       })
     );
@@ -86,7 +85,6 @@ export class AuthService {
   registerS(credentials) {
     return this.http.post(`${this.url}/supers`, credentials).pipe(
       catchError(e => {
-        this.showAlert(e.error.msg);
         throw new Error(e);
       })
     );
@@ -96,7 +94,6 @@ export class AuthService {
   registerL(credentials) {
     return this.http.post(`${this.url}/Locations`, credentials).pipe(
       catchError(e => {
-        this.showAlert(e.error.msg);
         throw new Error(e);
       })
     );
@@ -106,7 +103,6 @@ export class AuthService {
   registerE(credentials) {
     return this.http.post(`${this.url}/Emergencys`, credentials).pipe(
       catchError(e => {
-        this.showAlert(e.error.msg);
         throw new Error(e);
       })
     );
@@ -116,7 +112,6 @@ export class AuthService {
   registerSe(credentials) {
     return this.http.post(`${this.url}/Sensors`, credentials).pipe(
       catchError(e => {
-        this.showAlert(e.error.msg);
         throw new Error(e);
       })
     );
@@ -136,7 +131,7 @@ export class AuthService {
           this.accountType.next(false);
         }),
         catchError(e => {
-          this.showAlert(e.error.msg);
+          this.showAlert(e.error.error);
           throw new Error(e);
         })
       );
@@ -155,7 +150,7 @@ export class AuthService {
           this.accountType.next(true);
         }),
         catchError(e => {
-          this.showAlert(e.error.msg);
+          this.showAlert(e.error.error);
           throw new Error(e);
         })
       );
@@ -170,21 +165,6 @@ export class AuthService {
     });
   }
  
-//get data without authorisation
-  getSpecialData() {
-    return this.http.get(`${this.url}/api/special`).pipe(
-      catchError(e => {
-        let status = e.status;
-        if (status === 401) {
-          this.showAlert('You are not authorized for this!');
-          this.logout();
-        }
-        throw new Error(e);
-      })
-    )
-  }
- 
-
   //verify session 
   isAuthenticated() {
     return this.authenticationState.value;
