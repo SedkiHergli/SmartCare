@@ -1702,9 +1702,6 @@ var AppComponent = /** @class */ (function () {
                         }
                     });
                 }
-                else {
-                    _this.router.navigate(['login']);
-                }
             });
         });
     };
@@ -3204,7 +3201,7 @@ var SettingsPage = /** @class */ (function () {
     SettingsPage.prototype.ngOnInit = function () {
         var _this = this;
         this.storage.get("User").then(function (userr) { _this.user = userr; });
-        this.storage.get("refresh_token").then(function (tokenn) { _this.token = tokenn; });
+        this.storage.get("access_token").then(function (tokenn) { _this.token = tokenn; });
     };
     SettingsPage.prototype.ChangeAccountU = function () {
         return __awaiter(this, void 0, void 0, function () {
@@ -3636,7 +3633,7 @@ var SettingssPage = /** @class */ (function () {
     SettingssPage.prototype.ngOnInit = function () {
         var _this = this;
         this.storage.get("User").then(function (userr) { _this.user = userr; });
-        this.storage.get("refresh_token").then(function (tokenn) { _this.token = tokenn; });
+        this.storage.get("access_token").then(function (tokenn) { _this.token = tokenn; });
     };
     SettingssPage.prototype.ChangeAccountS = function () {
         return __awaiter(this, void 0, void 0, function () {
@@ -4178,13 +4175,14 @@ var __metadata = (undefined && undefined.__metadata) || function (k, v) {
 var TOKEN_KEY = 'access_token';
 var REFRESH_TOKEN_KEY = 'refresh_token';
 var AuthService = /** @class */ (function () {
-    function AuthService(http, helper, storage, plt, alertController) {
+    function AuthService(http, helper, storage, plt, alertController, navcrtl) {
         var _this = this;
         this.http = http;
         this.helper = helper;
         this.storage = storage;
         this.plt = plt;
         this.alertController = alertController;
+        this.navcrtl = navcrtl;
         this.url = _environments_environment__WEBPACK_IMPORTED_MODULE_5__["environment"].url;
         this.user = null;
         this.authenticationState = new rxjs__WEBPACK_IMPORTED_MODULE_7__["BehaviorSubject"](false);
@@ -4229,41 +4227,31 @@ var AuthService = /** @class */ (function () {
     };
     //register User
     AuthService.prototype.register = function (credentials) {
-        var _this = this;
         return this.http.post(this.url + "/users", credentials).pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_6__["catchError"])(function (e) {
-            _this.showAlert(e.error.msg);
             throw new Error(e);
         }));
     };
     //register Supervisor
     AuthService.prototype.registerS = function (credentials) {
-        var _this = this;
         return this.http.post(this.url + "/supers", credentials).pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_6__["catchError"])(function (e) {
-            _this.showAlert(e.error.msg);
             throw new Error(e);
         }));
     };
     //register locations
     AuthService.prototype.registerL = function (credentials) {
-        var _this = this;
         return this.http.post(this.url + "/Locations", credentials).pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_6__["catchError"])(function (e) {
-            _this.showAlert(e.error.msg);
             throw new Error(e);
         }));
     };
     //register emergencys
     AuthService.prototype.registerE = function (credentials) {
-        var _this = this;
         return this.http.post(this.url + "/Emergencys", credentials).pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_6__["catchError"])(function (e) {
-            _this.showAlert(e.error.msg);
             throw new Error(e);
         }));
     };
     //register sensors
     AuthService.prototype.registerSe = function (credentials) {
-        var _this = this;
         return this.http.post(this.url + "/Sensors", credentials).pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_6__["catchError"])(function (e) {
-            _this.showAlert(e.error.msg);
             throw new Error(e);
         }));
     };
@@ -4280,7 +4268,7 @@ var AuthService = /** @class */ (function () {
             _this.authenticationState.next(true);
             _this.accountType.next(false);
         }), Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_6__["catchError"])(function (e) {
-            _this.showAlert(e.error.msg);
+            _this.showAlert(e.error.error);
             throw new Error(e);
         }));
     };
@@ -4296,7 +4284,7 @@ var AuthService = /** @class */ (function () {
             _this.authenticationState.next(true);
             _this.accountType.next(true);
         }), Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_6__["catchError"])(function (e) {
-            _this.showAlert(e.error.msg);
+            _this.showAlert(e.error.error);
             throw new Error(e);
         }));
     };
@@ -4306,19 +4294,8 @@ var AuthService = /** @class */ (function () {
         this.storage.remove(TOKEN_KEY).then(function () {
             _this.storage.remove(REFRESH_TOKEN_KEY);
             _this.authenticationState.next(false);
+            _this.navcrtl.navigateRoot('/login');
         });
-    };
-    //get data without authorisation
-    AuthService.prototype.getSpecialData = function () {
-        var _this = this;
-        return this.http.get(this.url + "/api/special").pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_6__["catchError"])(function (e) {
-            var status = e.status;
-            if (status === 401) {
-                _this.showAlert('You are not authorized for this!');
-                _this.logout();
-            }
-            throw new Error(e);
-        }));
     };
     //verify session 
     AuthService.prototype.isAuthenticated = function () {
@@ -4337,8 +4314,12 @@ var AuthService = /** @class */ (function () {
         Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["Injectable"])({
             providedIn: 'root'
         }),
-        __metadata("design:paramtypes", [_angular_common_http__WEBPACK_IMPORTED_MODULE_2__["HttpClient"], _auth0_angular_jwt__WEBPACK_IMPORTED_MODULE_3__["JwtHelperService"], _ionic_storage__WEBPACK_IMPORTED_MODULE_4__["Storage"],
-            _ionic_angular__WEBPACK_IMPORTED_MODULE_0__["Platform"], _ionic_angular__WEBPACK_IMPORTED_MODULE_0__["AlertController"]])
+        __metadata("design:paramtypes", [_angular_common_http__WEBPACK_IMPORTED_MODULE_2__["HttpClient"],
+            _auth0_angular_jwt__WEBPACK_IMPORTED_MODULE_3__["JwtHelperService"],
+            _ionic_storage__WEBPACK_IMPORTED_MODULE_4__["Storage"],
+            _ionic_angular__WEBPACK_IMPORTED_MODULE_0__["Platform"],
+            _ionic_angular__WEBPACK_IMPORTED_MODULE_0__["AlertController"],
+            _ionic_angular__WEBPACK_IMPORTED_MODULE_0__["NavController"]])
     ], AuthService);
     return AuthService;
 }());
@@ -4395,41 +4376,35 @@ var EmergencyService = /** @class */ (function () {
         this.storage = storage;
     }
     EmergencyService.prototype.getApiEmergency = function (email, token) {
-        var _this = this;
         var httpOptions = {
             headers: new _angular_common_http__WEBPACK_IMPORTED_MODULE_2__["HttpHeaders"]({
                 'Content-Type': 'application/json',
-                'Authorization': 'Bearer' + token
+                'Authorization': 'Bearer ' + token
             })
         };
         return this.http.get(this.authService.url + "/Emergencys/" + email, httpOptions).pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_5__["catchError"])(function (e) {
-            _this.showAlert(e.error.msg);
             throw new Error(e);
         }));
     };
     EmergencyService.prototype.updateEmergency = function (data, email, token) {
-        var _this = this;
         var httpOptions = {
             headers: new _angular_common_http__WEBPACK_IMPORTED_MODULE_2__["HttpHeaders"]({
                 'Content-Type': 'application/json',
-                'Authorization': 'Bearer' + token
+                'Authorization': 'Bearer ' + token
             })
         };
         return this.http.patch(this.authService.url + "/Emergencys/" + email, data, httpOptions).pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_5__["catchError"])(function (e) {
-            _this.showAlert(e.error.msg);
             throw new Error(e);
         }));
     };
     EmergencyService.prototype.deleteEmergency = function (email, token) {
-        var _this = this;
         var httpOptions = {
             headers: new _angular_common_http__WEBPACK_IMPORTED_MODULE_2__["HttpHeaders"]({
                 'Content-Type': 'application/json',
-                'Authorization': 'Bearer' + token
+                'Authorization': 'Bearer ' + token
             })
         };
         return this.http.delete(this.authService.url + "/Emergencys/" + email, httpOptions).pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_5__["catchError"])(function (e) {
-            _this.showAlert(e.error.msg);
             throw new Error(e);
         }));
     };
@@ -4515,41 +4490,35 @@ var LocationService = /** @class */ (function () {
         });
     };
     LocationService.prototype.getApiLocation = function (email, token) {
-        var _this = this;
         var httpOptions = {
             headers: new _angular_common_http__WEBPACK_IMPORTED_MODULE_3__["HttpHeaders"]({
                 'Content-Type': 'application/json',
-                'Authorization': 'Bearer' + token
+                'Authorization': 'Bearer ' + token
             })
         };
         return this.http.get(this.authService.url + "/Locations/" + email, httpOptions).pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_6__["catchError"])(function (e) {
-            _this.showAlert(e.error.msg);
             throw new Error(e);
         }));
     };
     LocationService.prototype.updateLocation = function (data, email, token) {
-        var _this = this;
         var httpOptions = {
             headers: new _angular_common_http__WEBPACK_IMPORTED_MODULE_3__["HttpHeaders"]({
                 'Content-Type': 'application/json',
-                'Authorization': 'Bearer' + token
+                'Authorization': 'Bearer ' + token
             })
         };
         return this.http.patch(this.authService.url + "/Locations/" + email, data, httpOptions).pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_6__["catchError"])(function (e) {
-            _this.showAlert(e.error.msg);
             throw new Error(e);
         }));
     };
     LocationService.prototype.deleteLocation = function (email, token) {
-        var _this = this;
         var httpOptions = {
             headers: new _angular_common_http__WEBPACK_IMPORTED_MODULE_3__["HttpHeaders"]({
                 'Content-Type': 'application/json',
-                'Authorization': 'Bearer' + token
+                'Authorization': 'Bearer ' + token
             })
         };
         return this.http.delete(this.authService.url + "/Locations/" + email, httpOptions).pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_6__["catchError"])(function (e) {
-            _this.showAlert(e.error.msg);
             throw new Error(e);
         }));
     };
@@ -4696,41 +4665,35 @@ var SensorService = /** @class */ (function () {
         this.storage = storage;
     }
     SensorService.prototype.getApiSensor = function (email, token) {
-        var _this = this;
         var httpOptions = {
             headers: new _angular_common_http__WEBPACK_IMPORTED_MODULE_2__["HttpHeaders"]({
                 'Content-Type': 'application/json',
-                'Authorization': 'Bearer' + token
+                'Authorization': 'Bearer ' + token
             })
         };
         return this.http.get(this.authService.url + "/Sensors/" + email, httpOptions).pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_5__["catchError"])(function (e) {
-            _this.showAlert(e.error.msg);
             throw new Error(e);
         }));
     };
     SensorService.prototype.updateSensor = function (data, email, token) {
-        var _this = this;
         var httpOptions = {
             headers: new _angular_common_http__WEBPACK_IMPORTED_MODULE_2__["HttpHeaders"]({
                 'Content-Type': 'application/json',
-                'Authorization': 'Bearer' + token
+                'Authorization': 'Bearer ' + token
             })
         };
         return this.http.patch(this.authService.url + "/Sensors/" + email, data, httpOptions).pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_5__["catchError"])(function (e) {
-            _this.showAlert(e.error.msg);
             throw new Error(e);
         }));
     };
     SensorService.prototype.deleteSensor = function (email, token) {
-        var _this = this;
         var httpOptions = {
             headers: new _angular_common_http__WEBPACK_IMPORTED_MODULE_2__["HttpHeaders"]({
                 'Content-Type': 'application/json',
-                'Authorization': 'Bearer' + token
+                'Authorization': 'Bearer ' + token
             })
         };
         return this.http.delete(this.authService.url + "/Sensors/" + email, httpOptions).pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_5__["catchError"])(function (e) {
-            _this.showAlert(e.error.msg);
             throw new Error(e);
         }));
     };
@@ -4811,41 +4774,35 @@ var SupervisorService = /** @class */ (function () {
         this.storage = storage;
     }
     SupervisorService.prototype.getApiSupervisor = function (email, token) {
-        var _this = this;
         var httpOptions = {
             headers: new _angular_common_http__WEBPACK_IMPORTED_MODULE_2__["HttpHeaders"]({
                 'Content-Type': 'application/json',
-                'Authorization': 'Bearer' + token
+                'Authorization': 'Bearer ' + token
             })
         };
         return this.http.get(this.authService.url + "/supers/" + email, httpOptions).pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_5__["catchError"])(function (e) {
-            _this.showAlert(e.error.msg);
             throw new Error(e);
         }));
     };
     SupervisorService.prototype.updateSupervisor = function (data, email, token) {
-        var _this = this;
         var httpOptions = {
             headers: new _angular_common_http__WEBPACK_IMPORTED_MODULE_2__["HttpHeaders"]({
                 'Content-Type': 'application/json',
-                'Authorization': 'Bearer' + token
+                'Authorization': 'Bearer ' + token
             })
         };
         return this.http.patch(this.authService.url + "/supers/" + email, data, httpOptions).pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_5__["catchError"])(function (e) {
-            _this.showAlert(e.error.msg);
             throw new Error(e);
         }));
     };
     SupervisorService.prototype.deleteSupervisor = function (email, token) {
-        var _this = this;
         var httpOptions = {
             headers: new _angular_common_http__WEBPACK_IMPORTED_MODULE_2__["HttpHeaders"]({
                 'Content-Type': 'application/json',
-                'Authorization': 'Bearer' + token
+                'Authorization': 'Bearer ' + token
             })
         };
         return this.http.delete(this.authService.url + "/supers/" + email, httpOptions).pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_5__["catchError"])(function (e) {
-            _this.showAlert(e.error.msg);
             throw new Error(e);
         }));
     };
@@ -4929,41 +4886,36 @@ var UserService = /** @class */ (function () {
         this.storage = storage;
     }
     UserService.prototype.getApiUser = function (email, token) {
-        var _this = this;
         var httpOptions = {
             headers: new _angular_common_http__WEBPACK_IMPORTED_MODULE_2__["HttpHeaders"]({
                 'Content-Type': 'application/json',
-                'Authorization': 'Bearer' + token
+                'Authorization': 'Bearer ' + token
             })
         };
         return this.http.get(this.authService.url + "/users/" + email, httpOptions).pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_5__["catchError"])(function (e) {
-            _this.showAlert(e.error.msg);
             throw new Error(e);
         }));
     };
     UserService.prototype.updateUser = function (data, email, token) {
-        var _this = this;
         var httpOptions = {
             headers: new _angular_common_http__WEBPACK_IMPORTED_MODULE_2__["HttpHeaders"]({
                 'Content-Type': 'application/json',
-                'Authorization': 'Bearer' + token
+                'Authorization': 'Bearer ' + token
             })
         };
         return this.http.patch(this.authService.url + "/users/" + email, data, httpOptions).pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_5__["catchError"])(function (e) {
-            _this.showAlert(e.error.msg);
+            console.log(e);
             throw new Error(e);
         }));
     };
     UserService.prototype.deleteUser = function (email, token) {
-        var _this = this;
         var httpOptions = {
             headers: new _angular_common_http__WEBPACK_IMPORTED_MODULE_2__["HttpHeaders"]({
                 'Content-Type': 'application/json',
-                'Authorization': 'Bearer' + token
+                'Authorization': 'Bearer ' + token
             })
         };
         return this.http.delete(this.authService.url + "/users/" + email, httpOptions).pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_5__["catchError"])(function (e) {
-            _this.showAlert(e.error.msg);
             throw new Error(e);
         }));
     };
@@ -5505,7 +5457,7 @@ __webpack_require__.r(__webpack_exports__);
 // The list of which env maps to which file can be found in `.angular-cli.json`.
 var environment = {
     production: false,
-    url: 'https://786893aa.ngrok.io',
+    url: 'https://192.168.53.160:8443',
     weather_url: 'http://api.openweathermap.org/data/2.5/weather',
     api_weather: '675ff96d89dd9bf914a9e0400bc06886'
 };

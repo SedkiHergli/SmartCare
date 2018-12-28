@@ -34,7 +34,7 @@ getApiSensor(email,token):Observable<any> {
   const httpOptions = {
     headers: new HttpHeaders({
       'Content-Type':  'application/json',
-      'Authorization': 'Bearer' + token
+      'Authorization': 'Bearer ' + token
     })
   };
   return this.http.get(`${this.authService.url}/Sensors/${email}`,httpOptions).pipe(
@@ -49,7 +49,7 @@ updateSensor(data,email,token){
   const httpOptions = {
     headers: new HttpHeaders({
       'Content-Type':  'application/json',
-      'Authorization': 'Bearer' + token
+      'Authorization': 'Bearer ' + token
     })
   };
   return this.http.patch(`${this.authService.url}/Sensors/${email}`,data,httpOptions).pipe(
@@ -64,7 +64,7 @@ deleteSensor(email,token){
   const httpOptions = {
     headers: new HttpHeaders({
       'Content-Type':  'application/json',
-      'Authorization': 'Bearer' + token
+      'Authorization': 'Bearer ' + token
     })
   };
   return this.http.delete(`${this.authService.url}/Sensors/${email}`,httpOptions).pipe(

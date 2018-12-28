@@ -36,7 +36,7 @@ getApiUser(email,token):Observable<any> {
   const httpOptions = {
     headers: new HttpHeaders({
       'Content-Type':  'application/json',
-      'Authorization': 'Bearer' + token
+      'Authorization': 'Bearer ' + token
     })
   };
   return this.http.get(`${this.authService.url}/users/${email}`,httpOptions).pipe(
@@ -51,12 +51,12 @@ updateUser(data,email,token){
   const httpOptions = {
     headers: new HttpHeaders({
       'Content-Type':  'application/json',
-      'Authorization': 'Bearer' + token
+      'Authorization': 'Bearer ' + token
     })
   };
   return this.http.patch(`${this.authService.url}/users/${email}`,data,httpOptions).pipe(
     catchError(e => {
-
+      console.log(e)
       throw new Error(e);
     })
   );
@@ -66,7 +66,7 @@ deleteUser(email,token){
   const httpOptions = {
     headers: new HttpHeaders({
       'Content-Type':  'application/json',
-      'Authorization': 'Bearer' + token
+      'Authorization': 'Bearer ' + token
     })
   };
   return this.http.delete(`${this.authService.url}/users/${email}`,httpOptions).pipe(

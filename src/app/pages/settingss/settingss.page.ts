@@ -24,7 +24,7 @@ export class SettingssPage implements OnInit {
 
   ngOnInit() {
     this.storage.get("User").then(userr => {this.user=userr;});
-    this.storage.get("refresh_token").then(tokenn => {this.token=tokenn;});
+    this.storage.get("access_token").then(tokenn => {this.token=tokenn;});
   }
 
 

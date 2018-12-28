@@ -38,7 +38,7 @@ getApiLocation(email,token):Observable<any> {
   const httpOptions = {
     headers: new HttpHeaders({
       'Content-Type':  'application/json',
-      'Authorization': 'Bearer' + token
+      'Authorization': 'Bearer ' + token
     })
   };
   return this.http.get(`${this.authService.url}/Locations/${email}`,httpOptions).pipe(
@@ -53,7 +53,7 @@ updateLocation(data,email,token){
   const httpOptions = {
     headers: new HttpHeaders({
       'Content-Type':  'application/json',
-      'Authorization': 'Bearer' + token
+      'Authorization': 'Bearer ' + token
     })
   };
   return this.http.patch(`${this.authService.url}/Locations/${email}`,data,httpOptions).pipe(
@@ -68,7 +68,7 @@ deleteLocation(email,token){
   const httpOptions = {
     headers: new HttpHeaders({
       'Content-Type':  'application/json',
-      'Authorization': 'Bearer' + token
+      'Authorization': 'Bearer ' + token
     })
   };
   return this.http.delete(`${this.authService.url}/Locations/${email}`,httpOptions).pipe(

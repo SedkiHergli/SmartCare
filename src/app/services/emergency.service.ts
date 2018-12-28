@@ -27,7 +27,7 @@ getApiEmergency(email,token):Observable<any> {
   const httpOptions = {
     headers: new HttpHeaders({
       'Content-Type':  'application/json',
-      'Authorization': 'Bearer' + token
+      'Authorization': 'Bearer ' + token
     })
   };
   return this.http.get(`${this.authService.url}/Emergencys/${email}`,httpOptions).pipe(
@@ -42,7 +42,7 @@ updateEmergency(data,email,token){
   const httpOptions = {
     headers: new HttpHeaders({
       'Content-Type':  'application/json',
-      'Authorization': 'Bearer' + token
+      'Authorization': 'Bearer ' + token
     })
   };
   return this.http.patch(`${this.authService.url}/Emergencys/${email}`,data,httpOptions).pipe(
@@ -57,7 +57,7 @@ deleteEmergency(email,token){
   const httpOptions = {
     headers: new HttpHeaders({
       'Content-Type':  'application/json',
-      'Authorization': 'Bearer' + token
+      'Authorization': 'Bearer ' + token
     })
   };
   return this.http.delete(`${this.authService.url}/Emergencys/${email}`,httpOptions).pipe(
