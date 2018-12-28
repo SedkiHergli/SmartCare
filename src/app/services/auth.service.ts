@@ -1,4 +1,4 @@
-import { Platform, AlertController } from '@ionic/angular';
+import { Platform, AlertController, NavController } from '@ionic/angular';
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { JwtHelperService } from '@auth0/angular-jwt';
@@ -20,8 +20,14 @@ export class AuthService {
   authenticationState = new BehaviorSubject(false);
   accountType = new BehaviorSubject(false);
  
-  constructor(private http: HttpClient, private helper: JwtHelperService, private storage: Storage,
-    private plt: Platform, private alertController: AlertController) {
+  constructor(
+    private http: HttpClient, 
+    private helper: JwtHelperService, 
+    private storage: Storage,
+    private plt: Platform, 
+    private alertController: AlertController,
+    private navcrtl: NavController
+  ) {
     this.plt.ready().then(() => {
       this.checkToken();
     });
@@ -160,6 +166,7 @@ export class AuthService {
     this.storage.remove(TOKEN_KEY).then(() => {
       this.storage.remove(REFRESH_TOKEN_KEY);
       this.authenticationState.next(false);
+      this.navcrtl.navigateRoot('/login');
     });
   }
  
