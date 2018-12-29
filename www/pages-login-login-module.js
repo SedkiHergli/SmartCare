@@ -176,7 +176,10 @@ var LoginPage = /** @class */ (function () {
     LoginPage.prototype.onSubmit = function () {
         var _this = this;
         if (this.checkuser) {
-            this.authService.login(this.credentialsForm.value).subscribe(function (resp) { return _this.presentLoadingWithOptions(); });
+            this.authService.login(this.credentialsForm.value).subscribe(function (resp) {
+                _this.presentLoadingWithOptions();
+                console.log(resp);
+            });
         }
         else if (this.checksuper) {
             this.authService.loginS(this.credentialsForm.value).subscribe(function (resp) { return _this.presentLoadingWithOptions(); });

@@ -50,7 +50,9 @@ export class LoginPage implements OnInit {
  
   onSubmit() {
     if(this.checkuser){
-    this.authService.login(this.credentialsForm.value).subscribe(resp=>this.presentLoadingWithOptions());
+    this.authService.login(this.credentialsForm.value).subscribe(resp=>{
+      this.presentLoadingWithOptions();
+    });
   }
     else if (this.checksuper) {
       this.authService.loginS(this.credentialsForm.value).subscribe(resp=>this.presentLoadingWithOptions());

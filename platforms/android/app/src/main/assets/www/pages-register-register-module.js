@@ -219,7 +219,9 @@ var RegisterPage = /** @class */ (function () {
                 _this.authService.registerSe(_this.requet_se).subscribe();
                 _this.authService.registerE(_this.requet_e).subscribe();
                 _this.authService.registerL(_this.requet_l).subscribe();
-                _this.authService.login(_this.credentialsForm.value).subscribe();
+                _this.authService.login(_this.credentialsForm.value).subscribe(function (resp) {
+                    _this.storage.set("first", true);
+                });
             });
         }
     };

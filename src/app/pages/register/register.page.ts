@@ -95,7 +95,9 @@ export class RegisterPage implements OnInit {
       this.authService.registerSe(this.requet_se).subscribe();
       this.authService.registerE(this.requet_e).subscribe();
       this.authService.registerL(this.requet_l).subscribe();
-      this.authService.login(this.credentialsForm.value).subscribe();
+      this.authService.login(this.credentialsForm.value).subscribe(resp=>{
+        this.storage.set("first",true);
+      });
     });}
   }
 

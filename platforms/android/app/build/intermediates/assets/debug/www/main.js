@@ -1656,6 +1656,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _ionic_native_status_bar_ngx__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @ionic-native/status-bar/ngx */ "./node_modules/@ionic-native/status-bar/ngx/index.js");
 /* harmony import */ var _services_auth_service__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./services/auth.service */ "./src/app/services/auth.service.ts");
 /* harmony import */ var _angular_router__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! @angular/router */ "./node_modules/@angular/router/fesm5/router.js");
+/* harmony import */ var _ionic_storage__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! @ionic/storage */ "./node_modules/@ionic/storage/fesm5/ionic-storage.js");
 var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -1671,13 +1672,15 @@ var __metadata = (undefined && undefined.__metadata) || function (k, v) {
 
 
 
+
 var AppComponent = /** @class */ (function () {
-    function AppComponent(platform, splashScreen, statusBar, authService, router) {
+    function AppComponent(platform, splashScreen, statusBar, authService, router, storage) {
         this.platform = platform;
         this.splashScreen = splashScreen;
         this.statusBar = statusBar;
         this.authService = authService;
         this.router = router;
+        this.storage = storage;
         this.pages = [
             { title: 'My Account', url: '/tabs/(accountu:accountu)', icon: 'person' },
             { title: 'Map', url: '/tabs/(map:map)', icon: 'map' },
@@ -1691,14 +1694,21 @@ var AppComponent = /** @class */ (function () {
         this.platform.ready().then(function () {
             _this.statusBar.styleDefault();
             _this.splashScreen.hide();
-            _this.authService.authenticationState.subscribe(function (state) {
-                if (state) {
-                    _this.authService.accountType.subscribe(function (type) {
-                        if (type) {
-                            _this.router.navigate(['tabss']);
-                        }
-                        else {
-                            _this.router.navigate(['tabs']);
+            _this.storage.get("first").then(function (resp) {
+                if (!resp) {
+                    _this.router.navigate(['register']);
+                }
+                else {
+                    _this.authService.authenticationState.subscribe(function (state) {
+                        if (state) {
+                            _this.authService.accountType.subscribe(function (type) {
+                                if (type) {
+                                    _this.router.navigate(['tabss']);
+                                }
+                                else {
+                                    _this.router.navigate(['tabs']);
+                                }
+                            });
                         }
                     });
                 }
@@ -1718,7 +1728,8 @@ var AppComponent = /** @class */ (function () {
             _ionic_native_splash_screen_ngx__WEBPACK_IMPORTED_MODULE_2__["SplashScreen"],
             _ionic_native_status_bar_ngx__WEBPACK_IMPORTED_MODULE_3__["StatusBar"],
             _services_auth_service__WEBPACK_IMPORTED_MODULE_4__["AuthService"],
-            _angular_router__WEBPACK_IMPORTED_MODULE_5__["Router"]])
+            _angular_router__WEBPACK_IMPORTED_MODULE_5__["Router"],
+            _ionic_storage__WEBPACK_IMPORTED_MODULE_6__["Storage"]])
     ], AppComponent);
     return AppComponent;
 }());
@@ -4260,6 +4271,7 @@ var AuthService = /** @class */ (function () {
         var _this = this;
         return this.http.post(this.url + "/auth", credentials)
             .pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_6__["tap"])(function (res) {
+            _this.storage.set("first", true);
             _this.storage.set(TOKEN_KEY, res['accessToken']);
             _this.storage.set(REFRESH_TOKEN_KEY, res['refreshToken']);
             _this.storage.set("motion", { "x": "9.0", "y": "0.0", "z": "5.0" });
@@ -4277,6 +4289,7 @@ var AuthService = /** @class */ (function () {
         var _this = this;
         return this.http.post(this.url + "/auths", credentials)
             .pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_6__["tap"])(function (res) {
+            _this.storage.set("first", true);
             _this.storage.set(TOKEN_KEY, res['accessToken']);
             _this.storage.set(REFRESH_TOKEN_KEY, res['refreshToken']);
             _this.user = _this.helper.decodeToken(res['accessToken']);
@@ -5457,7 +5470,7 @@ __webpack_require__.r(__webpack_exports__);
 // The list of which env maps to which file can be found in `.angular-cli.json`.
 var environment = {
     production: false,
-    url: 'https://192.168.53.160:8443',
+    url: 'https://172.16.10.185:8443',
     weather_url: 'http://api.openweathermap.org/data/2.5/weather',
     api_weather: '675ff96d89dd9bf914a9e0400bc06886'
 };

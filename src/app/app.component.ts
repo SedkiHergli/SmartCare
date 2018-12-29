@@ -4,6 +4,8 @@ import { SplashScreen } from '@ionic-native/splash-screen/ngx';
 import { StatusBar } from '@ionic-native/status-bar/ngx';
 import { AuthService } from './services/auth.service';
 import { Router, RouterEvent } from '@angular/router';
+import { Storage } from '@ionic/storage';
+
 
 @Component({
   selector: 'app-root',
@@ -27,6 +29,7 @@ export class AppComponent {
     private statusBar: StatusBar,
     private authService: AuthService,
     private router: Router,
+    private storage: Storage,
   ){
     this.initializeApp();
   }
@@ -35,7 +38,9 @@ export class AppComponent {
     this.platform.ready().then(() => {
       this.statusBar.styleDefault();
       this.splashScreen.hide();
-
+      this.storage.get("first").then(resp=>{
+      if(!resp){ this.router.navigate(['register']);}
+      else{
       this.authService.authenticationState.subscribe(state => {
         if (state) {
           this.authService.accountType.subscribe(type=>{
@@ -46,7 +51,9 @@ export class AppComponent {
             }
           });
         } 
-      });
+      
+      });}
+    });
     });
   }
 

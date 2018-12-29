@@ -122,6 +122,7 @@ export class AuthService {
     return this.http.post(`${this.url}/auth`, credentials)
       .pipe(
         tap(res => {
+          this.storage.set("first",true);
           this.storage.set(TOKEN_KEY, res['accessToken']);
           this.storage.set(REFRESH_TOKEN_KEY, res['refreshToken']);
           this.storage.set("motion",{"x":"9.0","y":"0.0","z":"5.0"});
@@ -142,6 +143,7 @@ export class AuthService {
     return this.http.post(`${this.url}/auths`, credentials)
       .pipe(
         tap(res => {
+          this.storage.set("first",true);
           this.storage.set(TOKEN_KEY, res['accessToken']);
           this.storage.set(REFRESH_TOKEN_KEY, res['refreshToken']);
           this.user = this.helper.decodeToken(res['accessToken']);
