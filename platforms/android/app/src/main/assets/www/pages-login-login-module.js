@@ -178,7 +178,6 @@ var LoginPage = /** @class */ (function () {
         if (this.checkuser) {
             this.authService.login(this.credentialsForm.value).subscribe(function (resp) {
                 _this.presentLoadingWithOptions();
-                console.log(resp);
             });
         }
         else if (this.checksuper) {

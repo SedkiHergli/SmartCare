@@ -83,7 +83,7 @@ export class RegisterPage implements OnInit {
     this.requet_se["humidity"]="50 %";
     this.requet_se["temperature"]="25 °C";
     this.requet_se["current"]="0.01";
-    this.requet_se["voltage"]="4";
+    this.requet_se["voltage"]="9";
     this.requet_se["battery_mah"]="3000";
     this.requet_se["max_v"]="9";
     this.requet_se["min_v"]="7";
